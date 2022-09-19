@@ -13,12 +13,17 @@ class Recipe(models.Model):
     image = models.ImageField(upload_to='recipes', blank=True, null=True)
     ## Add description section  ##
 
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=125)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="ingredients")
     ## ADD Quantity and Standard measurements later ##
 
+    def __str__(self):
+        return f"{self.name} in {self.recipe}"
 class Direction(models.Model):
     content = models.CharField(max_length=250)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="directions")
-
