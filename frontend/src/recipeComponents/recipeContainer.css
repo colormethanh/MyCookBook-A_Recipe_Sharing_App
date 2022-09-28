@@ -1,0 +1,12 @@
+img {
+    max-height: 300px;
+}
+
+#recipeMeta {
+    text-align: center;
+    height: 50%;
+}
+
+#recipeMeta > .container {
+    height: 50%;
+}
