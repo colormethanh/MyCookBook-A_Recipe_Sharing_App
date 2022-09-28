@@ -3,11 +3,6 @@ import burger from './burger.jpg';
 import './recipeContainer.css'
 const { DateTime } = require('luxon');
 
-
-
-
-
-
 function RecipeBody(props) {
 
     function IngredientRow(props) {
