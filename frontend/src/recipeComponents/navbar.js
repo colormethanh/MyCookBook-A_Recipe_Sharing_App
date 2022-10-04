@@ -34,6 +34,11 @@ export default function NavBar(props){
                             <NavLink tag={Link} to="/RecipeCreate">
                                 Recipe Create
                             </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} to="/RecipeList">
+                                Recipe List
+                            </NavLink>
                         </NavItem> 
                     </Nav>
                 </Collapse>

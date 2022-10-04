@@ -2,16 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import RecipeContainer from './recipeComponents/recipeContainer';
 import NavBar from './recipeComponents/navbar';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+// components
 import RecipeCreateContainer from './recipeComponents/recipeCreate';
+import RecipeContainer from './recipeComponents/recipeContainer';
+import RecipeListContainer from './recipeComponents/recipeList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -28,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/RecipeCreate",
         element: <RecipeCreateContainer />
+      },
+      {
+        path:"/RecipeList",
+        element: <RecipeListContainer />
       }
     ]
   },

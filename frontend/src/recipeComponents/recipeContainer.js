@@ -1,5 +1,5 @@
 import React from 'react';
-import burger from './burger.jpg';
+import burger from './images/burger.jpg';
 import './recipeContainer.css'
 const { DateTime } = require('luxon');
 
