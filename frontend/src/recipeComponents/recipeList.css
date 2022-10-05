@@ -1,7 +1,8 @@
 .wrapper {
-    width: 75%;
+    width: 50%;
     position: relative;
-    padding-left: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .searchIcon {
@@ -40,6 +41,7 @@
     outline: none;
     color: rgb(146, 146, 146);
     font-weight: 400;
+    min-width: auto;
 }
 
 .searchTerm:focus {

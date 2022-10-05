@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Card, CardLink, CardBody, CardTitle, CardText, CardSubtitle, Button} from 'reactstrap'
+import React, {useState} from "react";
+import {Card, CardBody, CardTitle, CardText, CardSubtitle, Button} from 'reactstrap'
 import searchIcon from './images/searchIcon.png'
 import './recipeList.css'
 
@@ -7,70 +7,71 @@ import './recipeList.css'
 
 
 
-function SearchBarContainer () {
+function SearchBarContainer (props) {
 
-    return (
-        <div className="container d-flex justify-content-center">
+  return (
+          <form>
             <div className="wrapper">
                 <div className="search">
-                    <input className="searchTerm" placeholder="Search" type="text" />
+                    <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
                     <Button type="submit" className="searchButton">
                         <img className="searchIcon" src={searchIcon}  alt="Icon"/>
                     </Button>
                 </div>
             </div>
-        </div>
+          </form>
     )
 }
 
-function RecipeCard(){
-    const card = <Card
-    style={{
-      width: '18rem'
-    }}
-    onClick={()=>console.log("card Clicked")}
-    className='m-3'
-  >
-    <CardBody>
-      <CardTitle tag="h5">
-        Card title
-      </CardTitle>
-      <CardSubtitle
-        className="mb-2 text-muted"
-        tag="h6"
-      >
-        Card subtitle
-      </CardSubtitle>
-    </CardBody>
-    <img
-      alt="Card cap"
-      src="https://picsum.photos/318/180"
-      width="100%"
-    />
-    <CardBody>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card‘s content.
-      </CardText>
-    </CardBody>
-  </Card>
+function RecipeCard(props){
 
     return(
         <>
-            {card}
+        <Card
+        style={{
+        width: '18rem'
+        }}
+        onClick={()=>console.log("card Clicked")}
+        className='m-3'
+        >
+            <CardBody>
+                <CardTitle tag="h5">
+                    {props.name}
+                </CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                    Card subtitle
+                </CardSubtitle>
+            </CardBody>
+            <img alt="Card cap" src="https://picsum.photos/318/180" width="100%"/>
+            <CardBody>
+                <CardText>
+                    Some quick example text to build on the card title and make up the bulk of the card's content.
+                </CardText>
+            </CardBody>
+        </Card>
         </>
     )
 }
 
 
-function CardContainer (){
+function CardContainer (props){
 
     function CreateCards(){
-        let cards = []
-    
-        for(let i=0; i < 8; i++){
-            cards.push(<RecipeCard />)
+        let searchValue = props.searchValue.toLowerCase()
+
+        if (props.searchValue === "") {
+            return(props.recipes.map((recipe) => {
+                return <RecipeCard name={recipe.name} />
+            }))
+        } else {
+            return(props.recipes.map((recipe) => {
+                let recipeName = recipe['name'].toLowerCase()
+                if (recipeName.includes(searchValue)){
+                    return <RecipeCard name={recipe.name}/>
+                }
+            }))
         }
-        return cards
+        
     }
 
 
@@ -84,19 +85,30 @@ function CardContainer (){
 }
 
 
-
-
-
-
 export default function RecipeListContainer () {
-    
-    
+    const [searchValue, setSearchValue] = useState("")
+
+
+    function handleSearchValueChange (e) {
+        setSearchValue(e.target.value);
+        console.log(`Setting search value to ${searchValue}`);
+    }
+
+    const RECIPES = [
+        {'name':'Roast Chicken',},
+        {'name':'Sushi'},
+        {'name':'Hot Dog'},
+        {'name':'Burger'},
+        {'name':'Katsu'},
+        {'name':'Kimchi Jigae'},
+        {'name':'Pad Thai'},
+        {'name':'Chicken Noodle Soup'}
+    ]
     
     return (
         <div className="container">
-            <SearchBarContainer />
-
-            <CardContainer />
+            <SearchBarContainer onChange={handleSearchValueChange}/>
+            <CardContainer searchValue={searchValue} recipes={RECIPES}/>
         </div>
     )
 }
