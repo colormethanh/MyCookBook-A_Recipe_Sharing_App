@@ -11,6 +11,8 @@ import {
 
 import {Outlet, Link} from "react-router-dom";
 
+import './navbar.css'
+
 
 
 export default function NavBar(props){
@@ -20,11 +22,16 @@ export default function NavBar(props){
 
     return (
         <div>
-            <Navbar light expand='md'>
+            <Navbar dark expand='md'>
                 <NavbarBrand href="#"> MyCookBook </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className='me-auto' navbar>
+                        <NavItem>
+                            <NavLink tag={Link} to="/">
+                                Home
+                            </NavLink>
+                        </NavItem>
                         <NavItem>
                             <NavLink tag={Link} to="/RecipeDetail">
                                 Recipe Detail

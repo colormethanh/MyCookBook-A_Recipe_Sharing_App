@@ -1,13 +1,16 @@
 import React from 'react';
 import burger from './images/burger.jpg';
-import './recipeContainer.css'
+import './recipeContainer.css';
+import NavBar from './navbar';
+import {Row, Col} from 'reactstrap'
+
 const { DateTime } = require('luxon');
 
 function RecipeBody(props) {
 
     function IngredientRow(props) {
         return (
-            <div className='col-12 border'>
+            <div className='col-12'>
                 <p> Name: {props.ingredient['name']} </p>
             </div>
         )
@@ -15,7 +18,7 @@ function RecipeBody(props) {
     
     function IngredientsContainer(props) {
         return(
-            <div className='row m-1 border border-danger'>
+            <div className='row m-1'>
                 <h3> Ingredients </h3>
                 {props.ingredients.map((ingredient) => {
                     return <IngredientRow ingredient={ingredient} />
@@ -26,7 +29,7 @@ function RecipeBody(props) {
 
     function DirectionRow(props) {
         return (
-            <div className='col-12 border'>
+            <div className='col-12'>
                 <p> {props.index + 1}.  {props.direction['content']} </p>
             </div>
         )
@@ -35,7 +38,7 @@ function RecipeBody(props) {
     function DirectionContainer (props) {
 
         return (
-          <div className='row m-1 border border-danger'>
+          <div className='row m-1'>
                 <h3> Direction </h3>
                 {props.directions.map((direction, index) =>{
                     return <DirectionRow direction={direction} index={index} />
@@ -45,7 +48,7 @@ function RecipeBody(props) {
     }
 
     return (
-        <div className='container mt-3 border border-primary'>
+        <div className='container mt-3'>
             <h1> Recipe Body </h1>
             <p> Description: {props.description} </p>
             <IngredientsContainer ingredients={props.ingredients} />
@@ -58,20 +61,20 @@ function RecipeBody(props) {
 function RecipeHeader(props) {
     const created_at = DateTime.fromISO(props.created_at).toLocaleString(DateTime.DATETIME_MED);
     return (
-        <div className='container mt-3 border border-primary'>
-            <div className='row'>
-                <div className='col-6' id="recipeMeta">
-                    <div className='container'>
-                        <p> <strong>{props.name}</strong> </p>
-                        <p> {props.owner} </p>
-                        <p> {created_at} </p>
+        <div className='recipe-header container mt-3'>
+            <Row className='flex'>
+                <Col id="recipeMeta">
+                    <div className='recipe-meta'>
+                        <div className='recipe-name'> {props.name} </div>
+                        <div className='recipe-owner'> {props.owner} </div>
+                        <div className='recipe-timestamp'> {created_at} </div>
                     </div>
                     
-                </div>
-                <div className='col-6' align='center'>
-                    <img src={burger} alt="Recipe" />
-                </div>
-            </div>
+                </Col>
+                <Col align='center'>
+                    <img src={burger} alt="Recipe" id="header-img" />
+                </Col>
+            </Row>
         </div>
         
     )
@@ -102,6 +105,8 @@ export default function RecipeContainer(props){
     }
 
     return (
+    <>
+    <NavBar />
     <div className="container" name="RecipeContainer">
         <RecipeHeader 
         name={RECIPE['name']} 
@@ -116,6 +121,7 @@ export default function RecipeContainer(props){
         directions={RECIPE['directions']} 
         />
     </div>
+    </>
     );
 }
 

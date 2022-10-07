@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Card, CardBody, CardTitle, CardText, CardSubtitle, Button} from 'reactstrap'
 import searchIcon from './images/searchIcon.png'
 import './recipeList.css'
+import NavBar from './navbar';
 
 
 
@@ -9,17 +10,17 @@ import './recipeList.css'
 
 function SearchBarContainer (props) {
 
-  return (
-          <form>
-            <div className="wrapper">
-                <div className="search">
-                    <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
-                    <Button type="submit" className="searchButton">
-                        <img className="searchIcon" src={searchIcon}  alt="Icon"/>
-                    </Button>
-                </div>
+    return (
+        <form>
+        <div className="wrapper">
+            <div className="search">
+                <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
+                <Button type="submit" className="searchButton">
+                    <img className="searchIcon" src={searchIcon}  alt="Icon"/>
+                </Button>
             </div>
-          </form>
+        </div>
+        </form>
     )
 }
 
@@ -32,13 +33,14 @@ function RecipeCard(props){
         width: '18rem'
         }}
         onClick={()=>console.log("card Clicked")}
-        className='m-3'
+        className='recipe-card m-3'
+        color="light"
         >
             <CardBody>
                 <CardTitle tag="h5">
                     {props.name}
                 </CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                <CardSubtitle className="mb-2" tag="h6">
                     Card subtitle
                 </CardSubtitle>
             </CardBody>
@@ -106,9 +108,12 @@ export default function RecipeListContainer () {
     ]
     
     return (
+        <>
+        <NavBar />
         <div className="container">
             <SearchBarContainer onChange={handleSearchValueChange}/>
             <CardContainer searchValue={searchValue} recipes={RECIPES}/>
         </div>
+        </>
     )
 }

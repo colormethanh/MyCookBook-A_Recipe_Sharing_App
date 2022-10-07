@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
-
+import NavBar from './navbar';
 
 function createKey () {
     const key = Math.random() * 1000
@@ -366,6 +366,8 @@ export default function RecipeCreateContainer(prop){
     }
 
     return (
+        <>
+        <NavBar />
         <div className='container'>
             <h1> Recipe Form </h1>
 
@@ -401,5 +403,6 @@ export default function RecipeCreateContainer(prop){
                  <Button color="primary" type="submit" value="Submit"> Submit</Button>
             </form>
         </div> 
+        </>
     )
 }

@@ -1,12 +1,31 @@
-img {
-    max-height: 300px;
+#header-img {
+    object-fit: cover;
+    width: 400px;
+    height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #recipeMeta {
     text-align: center;
-    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#recipeMeta > .container {
-    height: 50%;
+.recipe-name {
+    font-weight: bold;
+    font-size: 70px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.recipe-owner {
+    font-weight: lighter;
+    font-size: 30px;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.recipe-timestamp {
+    font-size: 15px;
 }

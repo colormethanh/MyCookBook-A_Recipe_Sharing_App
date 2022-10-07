@@ -1,0 +1,64 @@
+
+
+.home-page {
+    color:#ffffff;
+}
+
+.header-section {
+    text-align: center;
+}
+
+.card-img {
+    object-fit: cover;
+    height: 318px;
+}
+
+.gallery-container {
+    background-color: rgb(255, 255, 255, .5);
+}
+
+.gallery-card {
+    border: none;
+}
+
+
+
+.title-container {
+    font-size: 65px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color:#ff6700;
+}
+
+.undertitle-container {
+    font-size: 35px;
+    font-family: Times;
+}
+
+.tradeline-container {
+    font-size: 20px;
+    font-family: serif;
+    font-weight: lighter;
+}
+
+.home-btn {
+    background-color: #ff6600 ;
+    border-color: #ff6700;
+    border-radius: 30px;
+}
+.home-btn:hover {
+    background-color: #f06000 !important;
+    border-color: #f06000 !important;
+}
+
+.home-input {
+    border-radius: 30px;
+    opacity: .8;
+    border-color: #ff6700;
+    border-width: 2px;
+}
+
+.home-input:focus {
+    box-shadow:0 0 0.50rem #ff6700;
+    border-color: #ff6700;
+}

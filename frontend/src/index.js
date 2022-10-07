@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import NavBar from './recipeComponents/navbar';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -10,39 +9,53 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+
+import backgroundimg from './recipeComponents/images/backgroundimg.jpg'
+
 // components
+import NavBar from './recipeComponents/navbar';
 import RecipeCreateContainer from './recipeComponents/recipeCreate';
 import RecipeContainer from './recipeComponents/recipeContainer';
 import RecipeListContainer from './recipeComponents/recipeList';
+import HomePage from './recipeComponents/home'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+[
   {
     path: "/",
-    element: <NavBar />,
-    // Need to add error page
-    children: [
-      {
-        path: "/RecipeDetail",
-        element: <RecipeContainer />,
-      },
-      {
-        path: "/RecipeCreate",
-        element: <RecipeCreateContainer />
-      },
-      {
-        path:"/RecipeList",
-        element: <RecipeListContainer />
-      }
-    ]
+    element: <HomePage />,
   },
+  {
+    path: "/RecipeDetail",
+    element: <RecipeContainer />,
+  },
+  {
+    path: "/RecipeCreate",
+    element: <RecipeCreateContainer />
+  },
+  {
+    path:"/RecipeList",
+    element: <RecipeListContainer />
+  }
 ]);
 
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <div className='bigwrapper' style={{
+                backgroundImage:`url(${backgroundimg})`,
+                backgroundRepeat:'no-repeat',
+                backgroundSize:'cover',
+                backgroundPosition:'center',
+                width: '100vw',
+                height: '100vh',
+                color:'white',
+            }}>
+      <RouterProvider router={router} />  
+    </div>
+    
   </React.StrictMode>
 );
 
