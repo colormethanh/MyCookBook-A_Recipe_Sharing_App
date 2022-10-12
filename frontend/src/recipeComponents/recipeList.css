@@ -1,4 +1,14 @@
-.wrapper {
+.list-background {
+    /* background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5)); */
+    background-image: url("./images/woodBackgroundImg.jpg");
+    height: 100vh;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+
+/* Start Search Bar style */
+.search-wrapper {
     width: 50%;
     position: relative;
     margin-left: auto;
@@ -13,16 +23,16 @@
 .searchButton {
     width: 40px;
     height: 46px;
-    border: 1px solid gainsboro;
-    background: gainsboro;
-    border-radius: 0 5px 5px 0;
+    border: 1px solid #004e98;
+    background: #004e98;
+    border-radius: 0 30px 30px 0;
     cursor: pointer;
     padding-right: 20px;
 }
 
 .searchButton:focus {
-    border: 1px solid gainsboro;
-    background: gainsboro;
+    border: 1px solid #004e98;
+    background: #004e98;
 }
 
 .search {
@@ -33,22 +43,52 @@
 
 .searchTerm {
     width: 100%;
-    border: 3px solid gainsboro;
+    border: 3px solid #004e98;
     border-right: none;
     padding: 5px;
     height: 46px;
-    border-radius: 5px 0 0 5px;
+    border-radius: 30px 0 0 30px;
     outline: none;
-    color: rgb(146, 146, 146);
+    color: #004e98;
     font-weight: 400;
     min-width: auto;
+    opacity: .8;
+    
 }
 
 .searchTerm:focus {
-    color: rgb(146, 146, 146);
+    color: #004e98;
     font-weight: 400;
+    box-shadow:0 0 0.50rem #004e98;
 }
 
+
+/* Start Recipe Card style */
+
 .recipe-card {
-    color: orange;
+    color: #004e98;
+    background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5));
+    border-color: rgb(255, 103, 0);
 }
+
+.card-tritle {
+    font-weight: 500;
+}
+
+
+.cards-container {
+    overflow-y: scroll;
+    max-height: 80vh;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+body ::-webkit-scrollbar {
+    display: none;
+}
+
+.cards-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+

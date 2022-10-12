@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "./navbar";
 import {Button, Input, Card, CardImg, CardImgOverlay, CardTitle, CardText, Row, Col } from 'reactstrap'
-import backgroundimg from './images/backgroundimg.jpg'
 import './home.css'
 
 
@@ -26,7 +25,7 @@ function HeaderTitleContainer() {
             <Row>
                 <Col xl="6">
                     <div className="title-container">
-                    YourCookBook
+                        YourCookBook
                     </div>
 
                     <div className="undertitle-container">
@@ -60,7 +59,7 @@ function HeaderSection(){
 function GalleryCard() {
 
     return (
-        <Col md="12" xl="auto">
+        <Col className="card-column"  md="12" xl="4">
             <Card className="gallery-card">
                 <CardImg
                     alt="card image"
@@ -93,18 +92,17 @@ function GalleryContainer() {
     }   
     
     return (
-        <div className="gallery-container p-5">
-            <Row className="flex flex-xl-nowrap justify-content-around">
+            <Row className="gallery-row d-flex flex-xl-nowrap justify-content-around">
                 {cards}
-            </Row>
-        </div> 
+            </Row> 
     )
 }
 
 
 function GallerySection() {
+    
     return(
-        <div className="container mt-3">
+        <div className="gallery-container p-3 mt-3 ms-3 me-4">
             <GalleryContainer />   
         </div>
     )
@@ -114,10 +112,12 @@ function GallerySection() {
 
 export default function HomePage() {
     return ( 
-        <div className="home-page">
-        <NavBar />
-        <HeaderSection />
-        <GallerySection />
+        <div className='home-background'>
+            <div className="home-page">
+                <NavBar />
+                <HeaderSection />
+                <GallerySection />
+            </div>
         </div> 
     )
 }

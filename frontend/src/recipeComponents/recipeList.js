@@ -12,7 +12,7 @@ function SearchBarContainer (props) {
 
     return (
         <form>
-        <div className="wrapper">
+        <div className="search-wrapper mb-3">
             <div className="search">
                 <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
                 <Button type="submit" className="searchButton">
@@ -36,8 +36,8 @@ function RecipeCard(props){
         className='recipe-card m-3'
         color="light"
         >
-            <CardBody>
-                <CardTitle tag="h5">
+            <CardBody className="recipe-card">
+                <CardTitle className="card-title" tag="h4">
                     {props.name}
                 </CardTitle>
                 <CardSubtitle className="mb-2" tag="h6">
@@ -45,7 +45,7 @@ function RecipeCard(props){
                 </CardSubtitle>
             </CardBody>
             <img alt="Card cap" src="https://picsum.photos/318/180" width="100%"/>
-            <CardBody>
+            <CardBody className="recipe-card">
                 <CardText>
                     Some quick example text to build on the card title and make up the bulk of the card's content.
                 </CardText>
@@ -56,7 +56,7 @@ function RecipeCard(props){
 }
 
 
-function CardContainer (props){
+function CardsContainer (props){
 
     function CreateCards(){
         let searchValue = props.searchValue.toLowerCase()
@@ -79,7 +79,7 @@ function CardContainer (props){
 
     return (
         <>
-        <div className="d-flex flex-wrap justify-content-center mb-3">
+        <div className="cards-container d-flex flex-wrap justify-content-center mb-3">
             <CreateCards />
         </div>
         </>
@@ -104,16 +104,24 @@ export default function RecipeListContainer () {
         {'name':'Katsu'},
         {'name':'Kimchi Jigae'},
         {'name':'Pad Thai'},
+        {'name':'Chicken Noodle Soup'},
+        {'name':'Roast Chicken',},
+        {'name':'Sushi'},
+        {'name':'Hot Dog'},
+        {'name':'Burger'},
+        {'name':'Katsu'},
+        {'name':'Kimchi Jigae'},
+        {'name':'Pad Thai'},
         {'name':'Chicken Noodle Soup'}
     ]
     
     return (
-        <>
-        <NavBar />
-        <div className="container">
-            <SearchBarContainer onChange={handleSearchValueChange}/>
-            <CardContainer searchValue={searchValue} recipes={RECIPES}/>
+        <div className="list-background">
+            <NavBar />
+            <div className="container">
+                <SearchBarContainer onChange={handleSearchValueChange}/>
+                <CardsContainer searchValue={searchValue} recipes={RECIPES}/>
+            </div>
         </div>
-        </>
     )
 }

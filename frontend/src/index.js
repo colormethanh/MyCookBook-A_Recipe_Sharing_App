@@ -44,18 +44,7 @@ const router = createBrowserRouter(
 
 root.render(
   <React.StrictMode>
-    <div className='bigwrapper' style={{
-                backgroundImage:`url(${backgroundimg})`,
-                backgroundRepeat:'no-repeat',
-                backgroundSize:'cover',
-                backgroundPosition:'center',
-                width: '100vw',
-                height: '100vh',
-                color:'white',
-            }}>
       <RouterProvider router={router} />  
-    </div>
-    
   </React.StrictMode>
 );
 

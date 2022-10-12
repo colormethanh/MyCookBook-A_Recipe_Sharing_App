@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import NavBar from './navbar';
 
+import './recipeCreate.css'
+
 function createKey () {
     const key = Math.random() * 1000
     return key
@@ -11,13 +13,16 @@ function ImageImage(props){
     let image = ""
 
     if (props.imageURL) {
-        image = <img alt="recipeImage" accept='image/*' src={props.imageURL}/>
+        image = <img id='recipe-image' alt="recipeImage" accept='image/*' src={props.imageURL}/>
     }
 
     return (
-        <div className='m-3'>
-            {image}
+        <div className='d-flex justify-content-center'>
+            <div className='image-container border m-3'>
+                {image}
+            </div>
         </div>
+        
     )
 }
 
@@ -113,7 +118,7 @@ function IngredientRow(props){
                     />
                 </Col>
                 <Col className='mt-1' md={1}>
-                    <Button color="danger" onClick={props.onClick}> Delete </Button>
+                    <Button color="danger" onClick={props.onClick}> Remove </Button>
                 </Col>
             </Row>
         </FormGroup>
@@ -183,16 +188,19 @@ function IngredientSection(props){
     }
 
     return(
-        <div>
+        <div className='mb-3'>
             <h3> Ingredients </h3>
-            {ingredients.map((ingredient) => {
+            <hr className='hr-contents' />
+            <div className='mt-3'>
+                {ingredients.map((ingredient) => {
                 return <IngredientRow 
                         onChange={(e) => handleChange(e, ingredient.key)} 
                         onClick={(e) => handleRemove(e, ingredient.key)} 
                         key={ingredient.key}
                         validation={ingredient['validation']}
                         />
-            })}
+                })}
+            </div>
             <Button name="1" onClick={handleNewIngredient}> Add Ingredient </Button>
         </div> 
     )
@@ -218,7 +226,7 @@ function DirectionRow(props){
                     /> 
                 </Col>
                 <Col className='mt-1' md={1}>
-                    <Button color="danger" onClick={props.onClick}> Delete </Button>
+                    <Button color="danger" onClick={props.onClick}> Remove </Button>
                 </Col>
             </Row>
         </FormGroup>
@@ -280,7 +288,10 @@ function DirectionSection(props){
     return (
         <div>
             <h3> Directions </h3>
-            {directions.map((direction, index) => {
+            <hr className='hr-contents' />
+
+            <div className='mt-4'>
+                {directions.map((direction, index) => {
                 return <DirectionRow 
                         key={direction.key} 
                         order={index + 1} 
@@ -289,7 +300,9 @@ function DirectionSection(props){
                         is_valid = {direction['is_valid']}
                         is_invalid = {direction['is_invalid']} 
                         />
-            })}
+                })}
+            </div>
+
             <Button onClick={handleNewDirection}> Add Direction </Button>
         </div>
     )   
@@ -366,43 +379,43 @@ export default function RecipeCreateContainer(prop){
     }
 
     return (
-        <>
-        <NavBar />
-        <div className='container'>
-            <h1> Recipe Form </h1>
+        <div className='create-background'>
+            <NavBar />
+            <div className='form-wrapper border container p-5'>
+                <h1> Recipe Form </h1>
+                <hr className='hr-contents' />
 
-            <form onSubmit={handleSubmit}>
-                
-                <ImageSection
-                image={image}
-                setImage={setImage}
-                imageURL={imageURL}
-                setImageURL={setImageURL}
-                validate={ValidateInput}
-                />
-                <RecipeName
-                setRecipeName={setRecipeName}
-                recipeName={recipeName}
-                validate={ValidateInput}
-                />
-                <IngredientSection 
-                ingredients={ingredients} 
-                setIngredients={setIngredients}
-                ingredientAmnt={ingredientAmnt}
-                setIngredientAmnt={setIngredientAmnt}
-                validate={ValidateInput}
-                />
-                <DirectionSection
-                 directions={directions}
-                 setDirections={setDirections}
-                 directionsAmnt={directionsAmnt}
-                 setDirectionAmnt={setDirectionAmnt}
-                 validate={ValidateInput}
-                 />
-                 <hr></hr>
-                 <Button color="primary" type="submit" value="Submit"> Submit</Button>
-            </form>
-        </div> 
-        </>
+                <form onSubmit={handleSubmit}>
+                    <ImageSection
+                    image={image}
+                    setImage={setImage}
+                    imageURL={imageURL}
+                    setImageURL={setImageURL}
+                    validate={ValidateInput}
+                    />
+                    <RecipeName
+                    setRecipeName={setRecipeName}
+                    recipeName={recipeName}
+                    validate={ValidateInput}
+                    />
+                    <IngredientSection 
+                    ingredients={ingredients} 
+                    setIngredients={setIngredients}
+                    ingredientAmnt={ingredientAmnt}
+                    setIngredientAmnt={setIngredientAmnt}
+                    validate={ValidateInput}
+                    />
+                    <DirectionSection
+                    directions={directions}
+                    setDirections={setDirections}
+                    directionsAmnt={directionsAmnt}
+                    setDirectionAmnt={setDirectionAmnt}
+                    validate={ValidateInput}
+                    />
+                    <hr></hr>
+                    <Button color="primary" type="submit" value="Submit"> Submit</Button>
+                </form>
+            </div> 
+        </div>
     )
 }

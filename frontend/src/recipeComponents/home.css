@@ -1,4 +1,21 @@
 
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
+
+.home-background {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('./images/backgroundimg.jpg');
+    background-size: cover;
+    color: white;
+    background-position: center;
+}
 
 .home-page {
     color:#ffffff;
@@ -8,26 +25,12 @@
     text-align: center;
 }
 
-.card-img {
-    object-fit: cover;
-    height: 318px;
-}
-
-.gallery-container {
-    background-color: rgb(255, 255, 255, .5);
-}
-
-.gallery-card {
-    border: none;
-}
-
-
-
 .title-container {
-    font-size: 65px;
+    font-size: 60px;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: bold;
     color:#ff6700;
+    display: block;
 }
 
 .undertitle-container {
@@ -61,4 +64,58 @@
 .home-input:focus {
     box-shadow:0 0 0.50rem #ff6700;
     border-color: #ff6700;
+}
+
+.card-img {
+    object-fit: cover;
+    height: 318px;
+}
+
+.gallery-container {
+    background-color: rgb(255, 255, 255, .5);
+    display: block;
+}
+
+.gallery-card {
+    border: none;
+}
+
+
+
+@media screen and (max-width: 768px) {
+
+    .title-container {
+        font-size: 40px;
+    }
+
+    .undertitle-container {
+        font-size: 25px;
+    }
+
+    .tradeline-container {
+        font-size: 15px;
+    }
+    
+    
+}
+
+
+@media screen and (max-width: 768px){
+
+    .home-background {
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 1200px){
+
+    .home-background {
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .card-column {
+        margin-top: 15px;
+    }
 }
