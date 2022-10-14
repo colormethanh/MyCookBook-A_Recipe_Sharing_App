@@ -1,11 +1,22 @@
-import React, {useState} from "react";
-import {Card, CardBody, CardTitle, CardText, CardSubtitle, Button} from 'reactstrap'
+import React, { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap'
 import searchIcon from './images/searchIcon.png'
 import './recipeList.css'
 import NavBar from './navbar';
+import { useLoaderData, useNavigate } from 'react-router-dom'
+
+const { DateTime } = require('luxon');
 
 
-
+export const listLoader = async () => {
+    const results = await axios.get('/api/')
+    .catch(function (error){
+        console.log('Error', error.message);
+    }); 
+    const recipes = results.data;
+    return recipes;
+} 
 
 
 function SearchBarContainer (props) {
@@ -26,31 +37,38 @@ function SearchBarContainer (props) {
 
 function RecipeCard(props){
 
+    const created_at = DateTime.fromISO(props.recipe.created_at).toLocaleString(DateTime.DATETIME_MED);
+    const navigate = useNavigate();
+    const handleOnClick = useCallback(() => navigate(`/${props.recipe.id}`, {replace:true}),[navigate]);
+
     return(
         <>
         <Card
         style={{
         width: '18rem'
         }}
-        onClick={()=>console.log("card Clicked")}
+        onClick={handleOnClick}
         className='recipe-card m-3'
         color="light"
         >
             <CardBody className="recipe-card">
                 <CardTitle className="card-title" tag="h4">
-                    {props.name}
+                    {props.recipe.name}
                 </CardTitle>
                 <CardSubtitle className="mb-2" tag="h6">
-                    Card subtitle
+                    By: {props.recipe.owner}
+                    <br />
+                    {created_at} 
                 </CardSubtitle>
             </CardBody>
-            <img alt="Card cap" src="https://picsum.photos/318/180" width="100%"/>
+            <img className="card-image" alt="Card cap" src={props.recipe.image} width="100%"/>
             <CardBody className="recipe-card">
                 <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the card's content.
+                    {props.recipe.description ? props.recipe.description : " A quick and simple Recipe!"}
                 </CardText>
             </CardBody>
         </Card>
+        
         </>
     )
 }
@@ -63,13 +81,13 @@ function CardsContainer (props){
 
         if (props.searchValue === "") {
             return(props.recipes.map((recipe) => {
-                return <RecipeCard name={recipe.name} />
+                return <RecipeCard name={recipe.name} recipe={recipe} key={recipe.id}/>
             }))
         } else {
             return(props.recipes.map((recipe) => {
                 let recipeName = recipe['name'].toLowerCase()
                 if (recipeName.includes(searchValue)){
-                    return <RecipeCard name={recipe.name}/>
+                    return <RecipeCard name={recipe.name} recipe={recipe} key={recipe.id}/>
                 }
             }))
         }
@@ -89,38 +107,25 @@ function CardsContainer (props){
 
 export default function RecipeListContainer () {
     const [searchValue, setSearchValue] = useState("")
-
+    const [recipes, setRecipes] = useState([])
 
     function handleSearchValueChange (e) {
         setSearchValue(e.target.value);
-        console.log(`Setting search value to ${searchValue}`);
-    }
+    };
 
-    const RECIPES = [
-        {'name':'Roast Chicken',},
-        {'name':'Sushi'},
-        {'name':'Hot Dog'},
-        {'name':'Burger'},
-        {'name':'Katsu'},
-        {'name':'Kimchi Jigae'},
-        {'name':'Pad Thai'},
-        {'name':'Chicken Noodle Soup'},
-        {'name':'Roast Chicken',},
-        {'name':'Sushi'},
-        {'name':'Hot Dog'},
-        {'name':'Burger'},
-        {'name':'Katsu'},
-        {'name':'Kimchi Jigae'},
-        {'name':'Pad Thai'},
-        {'name':'Chicken Noodle Soup'}
-    ]
+    const recipeList = useLoaderData();
+
+    useEffect(() => {
+        setRecipes(recipeList);
+    }, []);
     
+
     return (
         <div className="list-background">
             <NavBar />
             <div className="container">
                 <SearchBarContainer onChange={handleSearchValueChange}/>
-                <CardsContainer searchValue={searchValue} recipes={RECIPES}/>
+                <CardsContainer searchValue={searchValue} recipes={recipes}/>
             </div>
         </div>
     )

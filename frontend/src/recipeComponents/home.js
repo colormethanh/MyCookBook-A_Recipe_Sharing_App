@@ -1,8 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback} from "react";
+import axios from "axios";
 import NavBar from "./navbar";
 import {Button, Input, Card, CardImg, CardImgOverlay, CardTitle, CardText, Row, Col } from 'reactstrap'
 import './home.css'
+import {useLoaderData, useNavigate} from 'react-router-dom'
 
+
+
+export const homeLoader = async () => {
+    const results = await axios.get('/api/recents')
+    .catch(function (error){
+        console.log('Error', error.message);
+    }); 
+    const recipes = results.data;
+    console.log(recipes);
+    return recipes;
+}
 
 function SearchBarContainer() {
     return (
@@ -56,23 +69,24 @@ function HeaderSection(){
 }
 
 
-function GalleryCard() {
-
+function GalleryCard(props) {
+    const navigate = useNavigate();
+    const handleOnClick = useCallback(() => navigate(`/${props.recipe.id}`, {replace:true}),[navigate]);
     return (
         <Col className="card-column"  md="12" xl="4">
-            <Card className="gallery-card">
+            <Card className="gallery-card" onClick={handleOnClick}>
                 <CardImg
                     alt="card image"
-                    src="https://picsum.photos/500/418"
+                    src={props.recipe.image}
                     className="card-img"
                 />
                 <CardImgOverlay>
                     <CardTitle>
-                        Card Title
+                        {props.recipe.name}
                     </CardTitle>
                     <CardText>
                         <small>
-                            Last updated 3 mins ago
+                            by: {props.recipe.owner}
                         </small>
                     </CardText>
                 </CardImgOverlay>
@@ -83,7 +97,7 @@ function GalleryCard() {
 }
 
 
-function GalleryContainer() {
+function GalleryContainer(props) {
 
     let cards = []
 
@@ -93,17 +107,20 @@ function GalleryContainer() {
     
     return (
             <Row className="gallery-row d-flex flex-xl-nowrap justify-content-around">
-                {cards}
+                {/* {cards} */}
+                {props.recipes.map(recipe => {
+                    return <GalleryCard  recipe={recipe} key={recipe.name} />
+                })}
             </Row> 
     )
 }
 
 
-function GallerySection() {
+function GallerySection(props) {
     
     return(
         <div className="gallery-container p-3 mt-3 ms-3 me-4">
-            <GalleryContainer />   
+            <GalleryContainer recipes={props.recipes}/>   
         </div>
     )
 
@@ -111,12 +128,15 @@ function GallerySection() {
 
 
 export default function HomePage() {
+
+    const recipes = useLoaderData();
+
     return ( 
         <div className='home-background'>
             <div className="home-page">
                 <NavBar />
                 <HeaderSection />
-                <GallerySection />
+                <GallerySection recipes={recipes} />
             </div>
         </div> 
     )

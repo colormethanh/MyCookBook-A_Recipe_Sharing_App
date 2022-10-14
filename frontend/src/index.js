@@ -9,15 +9,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-
-import backgroundimg from './recipeComponents/images/backgroundimg.jpg'
-
 // components
-import NavBar from './recipeComponents/navbar';
 import RecipeCreateContainer from './recipeComponents/recipeCreate';
-import RecipeContainer from './recipeComponents/recipeContainer';
-import RecipeListContainer from './recipeComponents/recipeList';
-import HomePage from './recipeComponents/home'
+import RecipeContainer, {recipeLoader} from './recipeComponents/recipeContainer';
+import RecipeListContainer, {listLoader} from './recipeComponents/recipeList';
+import HomePage, { homeLoader } from './recipeComponents/home'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -26,10 +23,12 @@ const router = createBrowserRouter(
   {
     path: "/",
     element: <HomePage />,
+    loader: homeLoader
   },
   {
-    path: "/RecipeDetail",
+    path: "/:id",
     element: <RecipeContainer />,
+    loader: recipeLoader
   },
   {
     path: "/RecipeCreate",
@@ -37,7 +36,8 @@ const router = createBrowserRouter(
   },
   {
     path:"/RecipeList",
-    element: <RecipeListContainer />
+    element: <RecipeListContainer />,
+    loader: listLoader
   }
 ]);
 

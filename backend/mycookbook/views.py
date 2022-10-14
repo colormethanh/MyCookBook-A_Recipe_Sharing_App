@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from .forms import RecipeForm
 from django.views import generic
@@ -71,4 +72,17 @@ def api_detail(request, id):
     elif request.method == "DELETE":
         recipe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+def api_recents(request):
+    
+    if request.method == "GET":
+        data = Recipe.objects.all()[:3]
+
+        serializer = RecipeSerializer(data, many=True)
+
+        return Response(serializer.data)
+
+
     

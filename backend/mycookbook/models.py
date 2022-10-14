@@ -1,3 +1,4 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -6,12 +7,15 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     pass
 
+    def __str__(self):
+        return self.username
+
 class Recipe(models.Model):
     name = models.CharField(max_length=250, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='recipes', blank=True, null=True)
-    ## Add description section  ##
+    description = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"

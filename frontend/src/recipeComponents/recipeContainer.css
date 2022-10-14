@@ -1,9 +1,7 @@
-
-
-
 .recipe-background {
     background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.7));;
     height: 100vh;
+    overflow-y: scroll;
 }
 
 .hr-description {

@@ -5,5 +5,5 @@ from django import forms
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ("name", "owner","image")
+        fields = ("name", "owner","image", 'description')
 

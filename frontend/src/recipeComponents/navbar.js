@@ -33,11 +33,6 @@ export default function NavBar(props){
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/RecipeDetail">
-                                Recipe Detail
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink tag={Link} to="/RecipeCreate">
                                 Recipe Create
                             </NavLink>

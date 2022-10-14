@@ -1,11 +1,14 @@
+body ::-webkit-scrollbar {
+    display: none;
+}
+
 .list-background {
     /* background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5)); */
     background-image: url("./images/woodBackgroundImg.jpg");
     height: 100vh;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow-y: scroll;
 }
-
-
 
 /* Start Search Bar style */
 .search-wrapper {
@@ -65,6 +68,12 @@
 
 /* Start Recipe Card style */
 
+
+.card-image {
+    height: 300px;
+    object-fit: cover;
+}
+
 .recipe-card {
     color: #004e98;
     background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5));
@@ -81,10 +90,6 @@
     max-height: 80vh;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-}
-
-body ::-webkit-scrollbar {
-    display: none;
 }
 
 .cards-container {

@@ -1,8 +1,21 @@
 import React from 'react';
+import axios from "axios";
 import burger from './images/burger.jpg';
 import './recipeContainer.css';
 import NavBar from './navbar';
 import {Row, Col} from 'reactstrap'
+import { useLoaderData } from 'react-router-dom';
+
+
+export const recipeLoader = async( {params} ) => {
+    const results = await axios.get(`/api/${params.id}`)
+    .catch(function(error){
+        console.log('Error', error.message);
+    });
+    const recipe = results.data
+    return recipe;
+} 
+
 
 const { DateTime } = require('luxon');
 
@@ -22,7 +35,7 @@ function RecipeBody(props) {
             <div className='ingredients-container row'>
                 <div className='body-titles' id="ingredients-title">Ingredients:</div>
                 {props.ingredients.map((ingredient) => {
-                    return <IngredientRow ingredient={ingredient} />
+                    return <IngredientRow ingredient={ingredient} key={ingredient.name} />
                 })}
             </div>
         )
@@ -43,7 +56,7 @@ function RecipeBody(props) {
           <div className='directions-container row'>
                 <div className='body-titles' id='directions-title'> Directions: </div>
                 {props.directions.map((direction, index) =>{
-                    return <DirectionRow direction={direction} index={index} />
+                    return <DirectionRow direction={direction} index={index} key={index + 1} />
                 })}
           </div>
         )
@@ -74,6 +87,7 @@ function RecipeBody(props) {
 
 function RecipeHeader(props) {
     const created_at = DateTime.fromISO(props.created_at).toLocaleString(DateTime.DATETIME_MED);
+
     return (
         <>
         
@@ -89,7 +103,7 @@ function RecipeHeader(props) {
                         </div>
                     </Col>
                     <Col align='center'>
-                        <img src={burger} alt="Recipe" id="header-img" />
+                        <img src={props.image} alt="Recipe" id="header-img" />
                     </Col>
                 </Row>
             </div>
@@ -102,46 +116,23 @@ function RecipeHeader(props) {
 
 
 export default function RecipeContainer(props){
-    
-    const RECIPE = {
-        "id": 36,
-        "name": "Classic Burger",
-        "owner": 'colormethanh',
-        "image": "../src/images/burger.jpg",
-        "created_at": "2022-09-19T04:00:02.823709Z",
-        "description": "If it ain't broke, don't fix it. This simple burger recipe will taste awesome no matter what.",
-        "ingredients": [
-            {"name": "oil"},
-            {"name": "salt and pepper"},
-            {"name": "meat patty"},
-            {"name": "buns"},
-            {"name": "cheese"},
-            {"name": "pickles"}
-        ],
-        "directions": [
-            {"content": "Season burger patty well w/ salt and pepper"},
-            {"content": "Cook patties to desired dones"},
-            {"content": "While the burger patties are cooking, butter and toast your buns"},
-            {"content": "Seconds before the burger is finished, place a few slices of cheese ontop of the burger patties"},
-            {"content": "When the burger is finished, set them aside to rest"},
-            {"content": "Assemble your burger"}
-        ]
-    }
+
+    const recipe = useLoaderData()
 
     return (
     <>
     <div className='recipe-background'>
         <RecipeHeader 
-            name={RECIPE['name']} 
-            owner={RECIPE['owner']}
-            created_at={RECIPE['created_at']}
-            image={RECIPE['image']}
+            name={recipe['name']} 
+            owner={recipe['owner']}
+            created_at={recipe['created_at']}
+            image={recipe['image']}
             />
         <div className="container" name="RecipeContainer">
             <RecipeBody 
-                description={RECIPE['description']}
-                ingredients={RECIPE['ingredients']}
-                directions={RECIPE['directions']} 
+                description={recipe['description']}
+                ingredients={recipe['ingredients']}
+                directions={recipe['directions']} 
                 />
         </div>
     </div>

@@ -17,7 +17,7 @@ class DirectionSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    owner = serializers.StringRelatedField()
     ingredients = IngredientSerializer(many=True, required=False)
     directions = DirectionSerializer(many=True, required=False)
     class Meta:
@@ -27,6 +27,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'name',
             'owner',
             'image',
+            'description',
             'created_at',
             'ingredients',
             'directions',

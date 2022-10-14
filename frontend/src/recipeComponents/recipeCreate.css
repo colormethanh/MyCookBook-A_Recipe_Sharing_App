@@ -9,6 +9,7 @@ html, body {
     background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5));
     height: 100%;
     color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;;
 }
 
 .form-wrapper {
