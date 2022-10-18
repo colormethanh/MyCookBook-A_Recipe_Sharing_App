@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from "axios";
-import burger from './images/burger.jpg';
 import './recipeContainer.css';
 import NavBar from './navbar';
 import {Row, Col} from 'reactstrap'

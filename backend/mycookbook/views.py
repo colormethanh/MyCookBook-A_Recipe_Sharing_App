@@ -1,15 +1,16 @@
+from multiprocessing import context
 import re
 from django.shortcuts import render
 from .forms import RecipeForm
 from django.views import generic
-from .models import Recipe
+from .models import Ingredient, Recipe
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import RecipeSerializer
+from .serializers import RecipeSerializer, IngredientSerializer, DirectionSerializer
 
 from .models import Recipe, User
 # Create your views here.
@@ -42,11 +43,13 @@ def api_list(request):
     elif request.method=="POST":
         print("POST recieved")
         print (request.data)
-        serializer = RecipeSerializer(data=request.data)
+        serializer = RecipeSerializer(data=request.data, context={'request':request})
         print("Validating..")
         if serializer.is_valid():
             print("validated!")
             serializer.save()
+
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -67,6 +70,10 @@ def api_detail(request, id):
         serializer = RecipeSerializer(recipe, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            ingredients = request.data.get("ingredients")
+            print (ingredients)
+
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == "DELETE":

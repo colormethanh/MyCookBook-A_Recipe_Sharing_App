@@ -89,6 +89,7 @@ function CardsContainer (props){
                 if (recipeName.includes(searchValue)){
                     return <RecipeCard name={recipe.name} recipe={recipe} key={recipe.id}/>
                 }
+                return null
             }))
         }
         

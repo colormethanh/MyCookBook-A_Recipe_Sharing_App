@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import NavBar from './navbar';
 
@@ -35,10 +36,7 @@ function ImageSection(props){
 
     useEffect(() =>{
         if (image === "") return;
-        console.log(image)
-        console.log("creating image url")
         let newImageURL = URL.createObjectURL(image);
-        console.log(newImageURL);
         setImageURL(newImageURL);
     }, [image]);
     
@@ -49,8 +47,6 @@ function ImageSection(props){
         } else {
             setImage("")
         }
-        
-        console.log("image changed")
     } 
 
     return(
@@ -61,6 +57,41 @@ function ImageSection(props){
     )
 }
 
+function DescriptionSection (props) {
+    
+    const setDescription = props.setDescription
+    const recipeDescription = props.description
+    
+    function handleChange(e) {
+        const is_valid = props.validate (e)
+
+        setDescription({
+            'description': e.target.value,
+            'is_valid': is_valid,
+            'is_invalid': !is_valid
+        })
+    }
+    
+    
+    return (
+        <div>
+            <h3> Description Section </h3>
+            <hr className='hr-contents' />
+            <div className='mt-4'>
+            <FormGroup>
+                <Input
+                type='textarea' 
+                id='recipeDescription' 
+                placeholder='Recipe Description'
+                onChange={handleChange}
+                valid={recipeDescription['is_valid']}
+                invalid={recipeDescription['is_invalid']}
+                />
+            </FormGroup>
+            </div>
+        </div>
+    )
+}
 
 function RecipeName(props){
     const setRecipeName = props.setRecipeName
@@ -315,13 +346,15 @@ export default function RecipeCreateContainer(prop){
     const [recipeName, setRecipeName] = useState({
         'name':""
     })
+    const [description, setDescription] = useState({
+        'description': ""
+    })
     const [ingredients, setIngredients] = useState([]);
     const [ingredientAmnt, setIngredientAmnt] = useState(3);
     const [directions, setDirections] = useState([]);
     const [directionsAmnt, setDirectionAmnt] = useState(3);
     
     function ValidateInput(e) {
-        console.log(`validating ${e.target.name}`)
         if (e.target.value !== ""){
             return true
         } else { return false }
@@ -331,30 +364,31 @@ export default function RecipeCreateContainer(prop){
         let is_valid = true;
 
         if(recipeName['is_invalid']){ // Validating Name
-            console.log(' recipe name is invalid');
-            is_valid = false; 
+            is_valid = false;
+             
+        }
+
+        if(description['is_invalid']){ // Validating Description
+            is_valid = false;
         }
 
         ingredients.forEach((ingredient )=> { // Validating Ingredients
             if(!ingredient['validation']['name']){
-                console.log(`ingredient${ingredient.key} has invalid name`);
                 is_valid = false;
             } 
             
             if(!ingredient['validation']['amount']){
-                console.log(`ingredient${ingredient.key} has invalid amount`);
                 is_valid = false;
             }
         });
 
         directions.forEach((direction) => {
             if(direction['is_invalid']){
-                console.log(`direction ${direction.order} is invalid`);
                 is_valid = false;
              } 
         })
 
-        console.log(is_valid ? "form is valid" : "form is not valid")
+        return (is_valid)
 
     }
 
@@ -364,18 +398,31 @@ export default function RecipeCreateContainer(prop){
 
         const form_valid = validateForm();
 
-        // let formData = new FormData();
-        // formData.append('image', image);
-        // console.log(image);
-        // formData.append('recipeName', recipeName);
-        // console.log(recipeName);
-        // formData.append('ingredients', ingredients);
-        // console.log(ingredients);
-        // formData.append('directions', directions);
-        // console.log(directions);
-        // for (var pair of formData.entries()){
-        //     console.log(pair[0] + pair[1]);
-        // }
+
+
+        let formData = new FormData();
+        formData.append('image', image);
+        formData.append('description', JSON.stringify(description['description']));
+        formData.append('name', JSON.stringify(recipeName['name']));
+
+        ingredients.forEach((ingredient, index) => {
+            formData.append(`ingredients[${index}]name`, JSON.stringify(ingredient.name));
+            formData.append(`ingredients[${index}]amount`, JSON.stringify(ingredient.amount))
+        });
+        
+
+        directions.forEach((direction, index) => {
+            formData.append(`directions[${index}]content`, JSON.stringify(direction.content));
+        });
+
+        console.log(...formData);
+        console.log(form_valid);
+
+        if (form_valid){
+            axios.post('/api/', formData,)
+            .then(resp => console.log(resp))
+            .catch(error => {console.log("There was an error!", error)})
+        }
     }
 
     return (
@@ -387,30 +434,37 @@ export default function RecipeCreateContainer(prop){
 
                 <form onSubmit={handleSubmit}>
                     <ImageSection
-                    image={image}
-                    setImage={setImage}
-                    imageURL={imageURL}
-                    setImageURL={setImageURL}
-                    validate={ValidateInput}
+                        image={image}
+                        setImage={setImage}
+                        imageURL={imageURL}
+                        setImageURL={setImageURL}
+                        validate={ValidateInput}
                     />
                     <RecipeName
-                    setRecipeName={setRecipeName}
-                    recipeName={recipeName}
-                    validate={ValidateInput}
+                        setRecipeName={setRecipeName}
+                        recipeName={recipeName}
+                        validate={ValidateInput}
                     />
+
+                    <DescriptionSection
+                        setDescription={setDescription}
+                        description={description}
+                        validate={ValidateInput}
+                    />
+
                     <IngredientSection 
-                    ingredients={ingredients} 
-                    setIngredients={setIngredients}
-                    ingredientAmnt={ingredientAmnt}
-                    setIngredientAmnt={setIngredientAmnt}
-                    validate={ValidateInput}
+                        ingredients={ingredients} 
+                        setIngredients={setIngredients}
+                        ingredientAmnt={ingredientAmnt}
+                        setIngredientAmnt={setIngredientAmnt}
+                        validate={ValidateInput}
                     />
                     <DirectionSection
-                    directions={directions}
-                    setDirections={setDirections}
-                    directionsAmnt={directionsAmnt}
-                    setDirectionAmnt={setDirectionAmnt}
-                    validate={ValidateInput}
+                        directions={directions}
+                        setDirections={setDirections}
+                        directionsAmnt={directionsAmnt}
+                        setDirectionAmnt={setDirectionAmnt}
+                        validate={ValidateInput}
                     />
                     <hr></hr>
                     <Button color="primary" type="submit" value="Submit"> Submit</Button>
