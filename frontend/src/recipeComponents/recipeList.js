@@ -1,10 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
+
+//Routing and Request
 import axios from "axios";
+import { useLoaderData, useNavigate } from 'react-router-dom'
+
+//Styling
 import { Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap'
 import searchIcon from './images/searchIcon.png'
 import './recipeList.css'
+
+//Components
 import NavBar from './navbar';
-import { useLoaderData, useNavigate } from 'react-router-dom'
+
 
 const { DateTime } = require('luxon');
 

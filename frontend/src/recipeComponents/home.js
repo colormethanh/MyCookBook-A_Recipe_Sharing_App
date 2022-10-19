@@ -1,9 +1,16 @@
 import React, {useCallback} from "react";
-import axios from "axios";
+
+//Components and Styling
 import NavBar from "./navbar";
 import {Button, Input, Card, CardImg, CardImgOverlay, CardTitle, CardText, Row, Col } from 'reactstrap'
 import './home.css'
+
+//Routing and Request
 import {useLoaderData, useNavigate} from 'react-router-dom'
+import axios from "axios";
+
+//Auth
+import { AuthProvider } from "../context/AuthContext";
 
 
 
@@ -134,9 +141,12 @@ export default function HomePage() {
     return ( 
         <div className='home-background'>
             <div className="home-page">
-                <NavBar />
-                <HeaderSection />
-                <GallerySection recipes={recipes} />
+                <AuthProvider>
+                    <NavBar />
+                    <HeaderSection />
+                    <GallerySection recipes={recipes} />
+                </AuthProvider>
+                
             </div>
         </div> 
     )

@@ -3,6 +3,11 @@ import axios from "axios";
 import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import NavBar from './navbar';
 
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext"
+
+import { useNavigate } from 'react-router-dom';
+
 import './recipeCreate.css'
 
 function createKey () {
@@ -353,6 +358,9 @@ export default function RecipeCreateContainer(prop){
     const [ingredientAmnt, setIngredientAmnt] = useState(3);
     const [directions, setDirections] = useState([]);
     const [directionsAmnt, setDirectionAmnt] = useState(3);
+
+    const {user} = useContext(AuthContext);
+    const navigate = useNavigate();
     
     function ValidateInput(e) {
         if (e.target.value !== ""){
@@ -395,12 +403,12 @@ export default function RecipeCreateContainer(prop){
 
     function handleSubmit(e){
         e.preventDefault();
-
         const form_valid = validateForm();
 
 
 
         let formData = new FormData();
+        formData.append('owner', JSON.stringify(user.user_id));
         formData.append('image', image);
         formData.append('description', JSON.stringify(description['description']));
         formData.append('name', JSON.stringify(recipeName['name']));
@@ -420,7 +428,12 @@ export default function RecipeCreateContainer(prop){
 
         if (form_valid){
             axios.post('/api/', formData,)
-            .then(resp => console.log(resp))
+            .then(
+                resp =>{
+                    console.log(resp);
+                    navigate('/RecipeList');
+                } 
+            )
             .catch(error => {console.log("There was an error!", error)})
         }
     }
