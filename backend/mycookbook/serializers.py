@@ -8,6 +8,13 @@ from rest_framework.validators import UniqueValidator
 from .models import Ingredient, Recipe, User, Ingredient, Direction
 
 
+def strip_quotes(data):
+    '''
+    Function to strip the quotes off of request data
+    '''
+    data=data.replace('"','')
+    return data
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -43,16 +50,44 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class IngredientSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Ingredient
-        fields = ('name', 'amount','recipe')
+        fields = ('name', 'amount','id','recipe')
+    
+    def create(self, validated_data):
+        print("validated data...", validated_data)
+        
+        recipe = validated_data.get('recipe')
+        name = validated_data.get('name')
+        amount = validated_data.get('amount')
+        ingredient = Ingredient.objects.create(name=name, amount=amount, recipe=recipe)
+        return ingredient
+
+    def update(self, instance, validated_data):
+
+        instance.name = strip_quotes(validated_data.get('name'))
+        instance.amount = strip_quotes(validated_data.get('amount'))
+        instance.save()
+        return instance
 
 class DirectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Direction
-        fields = ('content','recipe')
+        fields = ('content', 'id', 'recipe')
+
+    def create(self, validated_data):
+        print("validated data...", validated_data)
+
+        recipe = validated_data.get('recipe')
+        content = strip_quotes(validated_data.get('content'))
+
+        direction = Direction.objects.create(content=content, recipe=recipe)
+        return direction
+
+    def update(self, instance, validated_data):
+        instance.content = strip_quotes(validated_data.get('content'))
+        instance.save()
+        return instance
 
 
 
@@ -77,40 +112,36 @@ class RecipeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print ("Validated Data...", validated_data)
 
-        print("context", self.context['request'].data)
+        ingredient_data = validated_data.pop('ingredients')
 
-        has_ingredients = validated_data.get("ingredients")
-        has_directions = validated_data.get("directions")
+        direction_data = validated_data.pop('directions')
 
-        if has_ingredients:
-            ingredient_data = validated_data.pop('ingredients')
-        if has_directions:
-            direction_data = validated_data.pop('directions')
+        recipe_name = strip_quotes(validated_data.get('name'))
 
-        recipe_name = validated_data.get('name')
-        recipe_name = recipe_name.replace('"','')
-
-        recipe_description = validated_data.get('description')
-        recipe_description = recipe_description.replace('"','')
+        recipe_description = strip_quotes(validated_data.get('description'))
         
-        user = validated_data.get('owner')
+        rqst  = self.context.get('rqst') #Validated data missing owner so I decided to pass owner through context
+        print(rqst['owner'])
 
-        recipe = Recipe.objects.create(name=recipe_name, description=recipe_description, image=validated_data.get('image'), owner=user)
+        owner = strip_quotes(rqst['owner'])
+        owner = User.objects.get(username=owner)
         
-        if has_ingredients:
-            for ingredient in ingredient_data:
-                ingredient_name = ingredient.get("name")
-                ingredient_name = ingredient_name.replace('"','')
 
-                ingredient_amount = ingredient.get("amount")
-                ingredient_amount = ingredient_amount.replace('"','')
-                Ingredient.objects.create(recipe=recipe, name=ingredient_name, amount=ingredient_amount)
+        recipe = Recipe.objects.create(name=recipe_name, description=recipe_description, image=validated_data.get('image'), owner=owner)
+        
 
-        if has_directions:
-            for direction in direction_data:
-                direction_content = direction.get("content")
-                direction_content = direction_content.replace('"','')
-                Direction.objects.create(recipe=recipe, content=direction_content)
+        for ingredient in ingredient_data:
+            ingredient_name = strip_quotes(ingredient.get("name"))
+            ingredient_amount = strip_quotes(ingredient.get("amount"))
+
+            Ingredient.objects.create(recipe=recipe, name=ingredient_name, amount=ingredient_amount)
+
+
+        for direction in direction_data:
+            direction_content = strip_quotes(direction.get("content"))
+
+            Direction.objects.create(recipe=recipe, content=direction_content)
+
         return recipe
     
     def update(self, instance, validated_data):

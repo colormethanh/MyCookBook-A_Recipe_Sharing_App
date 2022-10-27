@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import { useContext } from "react";
+
+//Style & Components
 import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import NavBar from './navbar';
+import "./recipeCreate.css"
 
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext"
 
+//Routing
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-import './recipeCreate.css'
+//Auth
+import AuthContext from "../context/AuthContext"
+
+
+
 
 function createKey () {
     const key = Math.random() * 1000
@@ -365,7 +372,9 @@ export default function RecipeCreateContainer(prop){
     function ValidateInput(e) {
         if (e.target.value !== ""){
             return true
-        } else { return false }
+        } else { 
+            return false 
+        }
     }
 
     function validateForm(){
@@ -408,7 +417,7 @@ export default function RecipeCreateContainer(prop){
 
 
         let formData = new FormData();
-        formData.append('owner', JSON.stringify(user.user_id));
+        formData.append('owner', JSON.stringify(user.username));
         formData.append('image', image);
         formData.append('description', JSON.stringify(description['description']));
         formData.append('name', JSON.stringify(recipeName['name']));
@@ -441,7 +450,7 @@ export default function RecipeCreateContainer(prop){
     return (
         <div className='create-background'>
             <NavBar />
-            <div className='form-wrapper border container p-5'>
+            <div className='form-wrapper border container p-5 '>
                 <h1> Recipe Form </h1>
                 <hr className='hr-contents' />
 

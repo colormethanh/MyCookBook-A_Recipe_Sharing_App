@@ -33,8 +33,8 @@ export default function NavBar(props){
 
     return (
         <div>
-            <Navbar dark expand='md'>
-                <NavbarBrand href="#"> MyCookBook </NavbarBrand>
+            <Navbar dark expand='md' id='navbar'>
+                <NavbarBrand href="/"> MyCookBook </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className='me-auto' navbar>

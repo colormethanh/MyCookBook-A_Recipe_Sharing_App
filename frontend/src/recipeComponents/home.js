@@ -9,8 +9,6 @@ import './home.css'
 import {useLoaderData, useNavigate} from 'react-router-dom'
 import axios from "axios";
 
-//Auth
-import { AuthProvider } from "../context/AuthContext";
 
 
 
@@ -114,7 +112,6 @@ function GalleryContainer(props) {
     
     return (
             <Row className="gallery-row d-flex flex-xl-nowrap justify-content-around">
-                {/* {cards} */}
                 {props.recipes.map(recipe => {
                     return <GalleryCard  recipe={recipe} key={recipe.name} />
                 })}
@@ -141,12 +138,9 @@ export default function HomePage() {
     return ( 
         <div className='home-background'>
             <div className="home-page">
-                <AuthProvider>
-                    <NavBar />
-                    <HeaderSection />
-                    <GallerySection recipes={recipes} />
-                </AuthProvider>
-                
+                <NavBar />
+                <HeaderSection />
+                <GallerySection recipes={recipes} />
             </div>
         </div> 
     )

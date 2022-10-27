@@ -2,14 +2,14 @@ import re
 from django.shortcuts import render
 from .forms import RecipeForm
 from django.views import generic
-from .models import Ingredient, Recipe
+from .models import Direction, Ingredient, Recipe
 from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse
 
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import RecipeSerializer, MyTokenObtainPairSerializer, RegisterSerializer
+from .serializers import DirectionSerializer, IngredientSerializer, RecipeSerializer, MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -84,12 +84,12 @@ def api_list(request):
     elif request.method=="POST":
         print("POST recieved")
         print (request.data)
-        serializer = RecipeSerializer(data=request.data, context={'request':request})
+        context={'rqst':request.data}
+        serializer = RecipeSerializer(data=request.data, context=context)
         print("Validating..")
         if serializer.is_valid():
             print("validated!")
             serializer.save()
-
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
@@ -131,6 +131,55 @@ def api_recents(request):
         serializer = RecipeSerializer(data, many=True)
 
         return Response(serializer.data)
+
+@api_view(["POST","PUT"])
+def api_ingredient(request):
+    print(request.data)
+    
+    if request.method == "POST":
+        serializer = IngredientSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == "PUT":
+        try:
+            ingredient = Ingredient.objects.get(pk=request.data['id'])
+        except:
+            return Response(statues=status.HTTP_404_NOT_FOUND)
+
+        serializer = IngredientSerializer(ingredient, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST','PUT'])
+def api_direction(request):
+
+    if request.method == "POST":
+        serializer = DirectionSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    if request.method == "PUT":
+        try:
+            direction = Direction.objects.get(pk=request.data['id'])
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    
+        serializer = DirectionSerializer(direction, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
     

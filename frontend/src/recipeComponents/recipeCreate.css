@@ -9,12 +9,13 @@ html, body {
     background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5));
     height: 100%;
     color: white;
-    font-family: Georgia, 'Times New Roman', Times, serif;;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .form-wrapper {
     background-color: rgb(255, 255, 255, .5);
     border-radius: 10px;
+    margin-top: 10px;
 }
 
 #recipe-image {

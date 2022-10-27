@@ -6,7 +6,7 @@ body ::-webkit-scrollbar {
     /* background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5)); */
     background-image: url("./images/woodBackgroundImg.jpg");
     height: 100vh;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Times New Roman', Times, serif;
     overflow-y: scroll;
 }
 

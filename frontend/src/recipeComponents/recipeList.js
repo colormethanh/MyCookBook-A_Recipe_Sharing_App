@@ -30,7 +30,7 @@ function SearchBarContainer (props) {
 
     return (
         <form>
-        <div className="search-wrapper mb-3">
+        <div className="search-wrapper mb-3 mt-3">
             <div className="search">
                 <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
                 <Button type="submit" className="searchButton">

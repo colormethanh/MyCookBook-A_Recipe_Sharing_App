@@ -15,15 +15,8 @@
 }
 
 .hr-contents {
-    width: 90%;
     margin-top: 2px;
     margin-bottom: 2px;
-}
-
-.content-row {
-    font-size: 20px;
-    font-style: italic;
-    font-family: 'Times New Roman', Times, serif;
 }
 
 /* Start of Recipe Header */
@@ -74,6 +67,26 @@
     background-color: rgb(192, 192, 192, .8);
     color: white;
     border-radius: 10px;
+}
+
+.ingredient-container {
+    flex-direction: column;
+}
+
+.ingredient-row {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.direction-row {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.content-row {
+    font-size: 20px;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 #recipe-description {
