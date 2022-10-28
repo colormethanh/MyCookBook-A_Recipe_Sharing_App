@@ -3,8 +3,9 @@ import React, { useContext, useState } from 'react';
 //Style and Components
 import './recipeContainer.css';
 import NavBar from './navbar';
-import {Row, Col, Button, Input, Alert,} from 'reactstrap'
+import {Row, Col, Button, Input, Alert, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 import { useLoaderData, useRevalidator } from 'react-router-dom';
+
 
 //Routing
 import axios from "axios";
@@ -40,6 +41,9 @@ function RecipeBody(props) {
         const [isEdit, setIsEdit] = useState(false);
         const [ingName, setIngName] = useState(props.ingredient['name']);
         const [ingAmount, setIngAmount] = useState(props.ingredient['amount']);
+        const [modal, setModal] = useState(false);
+
+        const modalToggle = () => setModal(!modal);
 
         function handleOnClick() {
             setIsEdit(!isEdit);
@@ -56,28 +60,81 @@ function RecipeBody(props) {
         }
 
         function handleSubmit(e) {
+            ////
+            // Reads form, creates a new Data, Validates form, 
+            // then sends a PUT request to update ingredient
+            ////
             e.preventDefault();
             let formData = new FormData();
             formData.append('name', JSON.stringify(ingName));
             formData.append('amount', JSON.stringify(ingAmount));
             formData.append('id',JSON.stringify(props.ingredient['id']));
             formData.append('recipe', JSON.stringify(props.ingredient['recipe']));
-            console.log(...formData);
-            console.log("submitting form")
-            axios.put(`/api/ingredient/`, formData)
+            // console.log(...formData);
+
+            const nameIsValid = ValidateInput(ingName);
+            const amountIsValid = ValidateInput(ingAmount);
+
+            if (nameIsValid && amountIsValid){
+                console.log("Form validated")
+                console.log("submitting form");
+                axios.put(`/api/ingredient/`, formData)
+                .then(
+                    resp => {
+                        console.log(resp);
+                        setIngName(resp.data['name']);
+                        setIngAmount(resp.data['amount']);
+                        setIsEdit(false);
+                    }
+                )
+                .catch(error => {console.log("There was an Error!", error)})
+            } else {
+                console.log("Form Not valid")
+                props.setAlertVisable(true);
+            }
+        }
+
+        function handleDelete(){
+            ////
+            // on click, opens model page to confirm deletion.
+            // If confirmed sends a delete request using axios.
+            ////
+
+            axios.delete(`/api/ingredient/${props.ingredient['id']}`)
             .then(
                 resp => {
                     console.log(resp);
-                    setIngName(resp.data['name']);
-                    setIngAmount(resp.data['amount']);
-                    setIsEdit(false);
+                    setModal(false);
+                    props.revalidator.revalidate();
                 }
             )
-            .catch(error => {console.log("There was an Error!", error)})
+            .catch(error => {console.log("There was an error!", error)})
         }
 
         return (
             <>
+            
+
+            <Modal
+                isOpen={modal}
+                toggle={modalToggle}
+                backdrop={true}
+            >
+                <ModalHeader toggle={modalToggle}>Are you sure?</ModalHeader>
+                <ModalBody>
+                You're about to delete the ingredient {ingName}. Click "I'm sure" to confirm. 
+                </ModalBody>
+                <ModalFooter>
+                <Button color="primary" onClick={handleDelete}>
+                    I'm Sure
+                </Button>{' '}
+                <Button color="danger" onClick={modalToggle}>
+                    Cancel
+                </Button>
+                </ModalFooter>
+            </Modal>
+
+
             <hr className='hr-contents' />
             <div className='ingredient-row'>                
                 <Row>
@@ -110,14 +167,14 @@ function RecipeBody(props) {
 
                         <Row>
                             <Col className='mt-2'>
-                                <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2" > Cancel </Button>
-                                <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                                <Button size='sm' outline color='warning' onClick={handleCancel} className="me-2" > Cancel </Button>
+                                <Button size='sm' outline color='primary' type='submit' className='me-2'> Submit </Button>
+                                <Button size='sm' outline color='danger' onClick={modalToggle} > Delete </Button> 
                             </Col>
                         </Row>
                         
                     </form>
                     }
-                    
                 </Row>
             </div>
             </>
@@ -192,39 +249,45 @@ function RecipeBody(props) {
                 </Alert>
                 <div className='body-titles' id="ingredients-title">Ingredients:</div>
                 {props.ingredients.map((ingredient) => {
-                    return <IngredientRow ingredient={ingredient} key={ingredient.id} user={props.user} owner={props.owner} />
+                    return <IngredientRow ingredient={ingredient} key={ingredient.id} user={props.user} owner={props.owner} setAlertVisable={setAlertVisable} revalidator={props.revalidator} />
                 })}
 
-                { 
-                !isAddIng ?
-                <Button outline onClick={handleClick}> Add New Ingredient </Button>
-                :
+                {props.user.username === props.owner && // validating that the current user is the owner
                 <>
-                <hr className='hr-contents'/>
-                <form className='mt-2' onSubmit={handleSubmit}>
-                        <Col className='content-row'>
-                            <Input 
-                                placeholder='Ingredient Name'
-                                onChange={(e) => handleChange(e, setNewIngName)}
-                            />
-                        </Col>
-                        
-                        <Col className='content-row mt-2'>
-                            <Input
-                                placeholder='Ingredient Amount'
-                                onChange={(e) => handleChange(e, setNewIngAmount)}
-                            />
-                        </Col>
-
-                        <Row>
-                            <Col className='mt-2'>
-                                <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2"> Cancel </Button>
-                                <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                { 
+                !isAddIng ? // opens or closes the form by read isAddIng state
+                    <Button outline onClick={handleClick}> Add New Ingredient </Button>
+                :
+                    <>
+                    <hr className='hr-contents'/>
+                    <form className='mt-2' onSubmit={handleSubmit}>
+                            <Col className='content-row'>
+                                <Input 
+                                    placeholder='Ingredient Name'
+                                    onChange={(e) => handleChange(e, setNewIngName)}
+                                />
                             </Col>
-                        </Row>
-                </form>
+                            
+                            <Col className='content-row mt-2'>
+                                <Input
+                                    placeholder='Ingredient Amount'
+                                    onChange={(e) => handleChange(e, setNewIngAmount)}
+                                />
+                            </Col>
+
+                            <Row>
+                                <Col className='mt-2'>
+                                    <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2"> Cancel </Button>
+                                    <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                                </Col>
+                            </Row>
+                    </form>
+                    </>
+                }
                 </>
                 }
+                
+                
 
                 
             </Row>
@@ -234,6 +297,9 @@ function RecipeBody(props) {
     function DirectionRow(props) {
         const [isEdit, setIsEdit ] = useState(false);
         const [ dirContent, setDirContent ] = useState(props.direction['content'])
+        const [modal, setModal] = useState(false)
+
+        function modalToggle(){setModal(!modal)} 
 
         function handleClick(){
             setIsEdit(!isEdit);
@@ -268,39 +334,75 @@ function RecipeBody(props) {
             .catch(error => {console.log("There was an Error!", error)})
         }
 
+        function handleDelete(){
+            ////
+            // on click, opens model page to confirm deletion.
+            // If confirmed sends a delete request using axios.
+            ////
+
+            axios.delete(`/api/direction/${props.direction['id']}`)
+            .then(
+                resp => {
+                    console.log(resp);
+                    setModal(false);
+                    props.revalidator.revalidate();
+                }
+            )
+            .catch(error => {console.log("There was an error!", error)})
+        }
+
 
         return (
             <>
+            <Modal
+                isOpen={modal}
+                toggle={modalToggle}
+                backdrop={true}
+            >
+                <ModalHeader toggle={modalToggle}>Are you sure?</ModalHeader>
+                <ModalBody>
+                You're about to delete the ingredient "{dirContent}". Click "I'm sure" to confirm. 
+                </ModalBody>
+                <ModalFooter>
+                <Button color="primary" onClick={handleDelete}>
+                    I'm Sure
+                </Button>{' '}
+                <Button color="danger" onClick={modalToggle}>
+                    Cancel
+                </Button>
+                </ModalFooter>
+            </Modal>
             <hr className='hr-contents' />
             <Row className='direction-row col-12'>
                 {
                 !isEdit ?
-                <>
-                <Col className='content-row'>{props.index + 1}.  {dirContent}</Col>
-                {props.user.username === props.owner && 
-                <Col xs='2' className='edit-btn'> 
-                    <Button size='sm' outline onClick={handleClick}> Edit </Button> 
-                </Col>
-                }
-                </>
+                    <>
+                    <Col className='content-row'>{props.index + 1}.  {dirContent}</Col>
+                    {props.user.username === props.owner && 
+                    <Col xs='2' className='edit-btn'> 
+                        <Button size='sm' outline onClick={handleClick}> Edit </Button> 
+                    </Col>
+                    }
+                    </>
                 :
-                <Col>
-                    <form onSubmit={handleSubmit}>
-                        <Col className='content-row'>
-                            <Input 
-                                value={dirContent}
-                                onChange={(e) => handleChange(e)}
-                            />
-                        </Col>
-
-                        <Row>
-                            <Col className='mt-2'>
-                                <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2" > Cancel </Button>
-                                <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                    <Col>
+                        <form onSubmit={handleSubmit}>
+                            <Col className='content-row'>
+                                <Input 
+                                    value={dirContent}
+                                    onChange={(e) => handleChange(e)}
+                                />
                             </Col>
-                        </Row>
-                    </form>
-                </Col>
+
+                            <Row>
+                                <Col className='mt-2'>
+                                <Button size='sm' outline color='warning' onClick={handleCancel} className="me-2" > Cancel </Button>
+                                    <Button size='sm' outline color='primary' type='submit' className='me-2'> Submit </Button>
+                                    <Button size='sm' outline color='danger' onClick={modalToggle} > Delete </Button> 
+                                </Col>
+                            </Row>
+                        </form>
+                    </Col>
                 }
             </Row>
             </>
@@ -364,32 +466,37 @@ function RecipeBody(props) {
                 </Alert>
                 <div className='body-titles' id='directions-title'> Directions: </div>
                 {props.directions.map((direction, index) =>{
-                    return <DirectionRow direction={direction} index={index} key={index + 1} user={props.user} owner={props.owner} />
+                    return <DirectionRow direction={direction} index={index} key={index + 1} user={props.user} owner={props.owner} revalidator={props.revalidator} />
                 })}
-
+                {props.user.username === props.owner && // validating that the current user is the owner 
+                <>
                 { 
                 !isAddIng ?
-                <Button outline onClick={handleClick}> Add New Direction </Button>
+                    <Button outline onClick={handleClick}> Add New Direction </Button>
                 :
-                <>
-                <hr className='hr-contents'/>
-                <form className='mt-2' onSubmit={handleSubmit}>
-                        <Col className='content-row'>
-                            <Input 
-                                placeholder='Direction'
-                                onChange={(e) => handleChange(e, setNewDir)}
-                            />
-                        </Col>
-
-                        <Row>
-                            <Col className='mt-3'>
-                                <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2" > Cancel </Button>
-                                <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                    <>
+                    <hr className='hr-contents'/>
+                    <form className='mt-2' onSubmit={handleSubmit}>
+                            <Col className='content-row'>
+                                <Input 
+                                    placeholder='Direction'
+                                    onChange={(e) => handleChange(e, setNewDir)}
+                                />
                             </Col>
-                        </Row>
-                </form>
-                </>
+
+                            <Row>
+                                <Col className='mt-3'>
+                                    <Button size='sm' outline color='danger' onClick={handleCancel} className="me-2" > Cancel </Button>
+                                    <Button size='sm' outline color='primary' type='submit'> Submit </Button> 
+                                </Col>
+                            </Row>
+                    </form>
+                    </>
                 }
+                </>
+                
+                }
+                
           </Row>
         )
     }
@@ -451,7 +558,11 @@ export default function RecipeContainer(props){
 
     const recipe = useLoaderData();
     const revalidator = useRevalidator();
-    const { user } = useContext(AuthContext);
+    let { user } = useContext(AuthContext);
+
+    if (user == null){
+        user = {'username':'guest'}
+    }
 
     return (
     <>

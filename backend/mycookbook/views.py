@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .forms import RecipeForm
 from django.views import generic
 from .models import Direction, Ingredient, Recipe
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.urls import reverse
 
 from rest_framework import status, generics
@@ -156,6 +156,20 @@ def api_ingredient(request):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    
+
+@api_view(["Delete"])
+def api_ingredient_delete(request, pk):
+        
+    if request.method == "DELETE":
+        try: 
+            ingredient = Ingredient.objects.get(pk=pk)
+        except Ingredient.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        ingredient.delete()
+        return HttpResponse(status=204)
+
 @api_view(['POST','PUT'])
 def api_direction(request):
 
@@ -180,6 +194,16 @@ def api_direction(request):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["Delete"])
+def api_direction_delete(request, pk):
+        
+    if request.method == "DELETE":
+        try: 
+            ingredient = Direction.objects.get(pk=pk)
+        except Ingredient.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
+        ingredient.delete()
+        return HttpResponse(status=204)
 
     
