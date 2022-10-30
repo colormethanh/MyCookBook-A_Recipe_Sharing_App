@@ -9,7 +9,7 @@ import "./recipeCreate.css"
 
 //Routing
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //Auth
 import AuthContext from "../context/AuthContext"
@@ -128,6 +128,7 @@ function RecipeName(props){
             onChange={handleChange}
             valid={recipeName['is_valid']}
             invalid={recipeName['is_invalid']}
+            value={recipeName['name']}
             />
         </FormGroup>
     )
@@ -353,11 +354,18 @@ function DirectionSection(props){
 
 
 export default function RecipeCreateContainer(prop){
+
+   
+
     const [image, setImage] = useState("");
     const [imageURL, setImageURL] = useState();
+
+    const initialName = sessionStorage.getItem('initialName'); //Grab the initial name of recipe from session storage
+    const name = initialName ? initialName : "" ; //if the initialName is not null then use the initialName else set ''
     const [recipeName, setRecipeName] = useState({
-        'name':""
+        'name': name
     })
+
     const [description, setDescription] = useState({
         'description': ""
     })

@@ -1,9 +1,0 @@
-<h1> Recipes </h1>
-<ul>
-    {% for recipe in object_list %}
-    <li>
-        {{recipe.name}} <br> <img src="{{ recipe.image.url }}" style="max-height: 300px;"> </image> 
-    </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'mycookbook:create_view' %}"> Add Recipe </a>

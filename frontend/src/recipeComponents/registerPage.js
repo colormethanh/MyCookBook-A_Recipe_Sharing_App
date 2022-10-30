@@ -62,7 +62,7 @@ function RegisterPage() {
                         <p>{password2 !== password ? "Passwords do not match" : ""}</p>
                     </div>
                     <br />
-                    <Button>Register</Button>
+                    <Button type="submit">Register</Button>
                 </form>
             </div>
             

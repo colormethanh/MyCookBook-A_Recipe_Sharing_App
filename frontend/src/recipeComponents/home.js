@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 
 //Components and Styling
 import NavBar from "./navbar";
@@ -23,12 +23,22 @@ export const homeLoader = async () => {
 }
 
 function SearchBarContainer() {
+    const navigate = useNavigate();
+    const [initialName, setInitialName] = useState('')
+
+    function onChange(e){setInitialName(e.target.value)}
+
+    function handleClick(){
+        window.sessionStorage.setItem('initialName', initialName)
+        navigate('/RecipeCreate')
+    }
+    
     return (
         <div className="flex">
             <Row>
                 <Col xl="6">
-                    <Input className="home-input mt-3" />
-                    <Button className="home-btn mt-3 mb-3" color="primary"> Create a Recipe now! </Button>
+                    <Input className="home-input mt-3" onChange={onChange} placeholder="Start creating a new recipe by typing a name!" />
+                    <Button className="home-btn mt-3 mb-3" color="primary" onClick={handleClick}> Create a Recipe now! </Button>
                 </Col>
             </Row>
             

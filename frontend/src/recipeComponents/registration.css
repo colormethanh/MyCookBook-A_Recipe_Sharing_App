@@ -21,3 +21,7 @@
     padding-bottom: 2.5%;
     margin-top: 10%;
 }
+
+.form-button {
+    cursor:pointer;
+}

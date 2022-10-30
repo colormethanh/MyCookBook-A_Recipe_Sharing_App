@@ -34,7 +34,6 @@ import PrivateRoute from './utils/PrivateRoute';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const AuthProviderLayout = () => (
-    
     <AuthProvider>
         <Outlet />
     </AuthProvider>
