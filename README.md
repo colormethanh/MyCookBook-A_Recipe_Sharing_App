@@ -1,9 +1,9 @@
 # MyCookBook- A recipe creation/sharing app
 
 ## Inspiration
-I first started programming I wanted to create something..anything that would be useful to someone. So when I was tasked with this project, I wanted to do just that, attempt to create something that would be useful to someone. To make something useful is not just creating a "feature" on a website, it's how the features is directed toward a specific goal. The goal of MyCookBook is a site where one can easily create a recipe for later use or browse through the many recipes others may upload.
+I first started programming because I wanted to create something..anything that would be useful to someone. So when I was tasked with this project, I wanted to do just that, attempt to create something that would be useful to someone. To make something useful is not just creating a "feature" on a website, it's how the features is directed toward a specific goal. The goal of MyCookBook is a site where one can easily create a recipe for later use or browse through the many recipes others may upload.
 The main feature of MyCookBook is in the ease of creation. In the case of other recipe sharing site, it's very easy to view recipes, however creating one is either difficult or just impossible. MyCookBook easily allows for photo uploads, descriptions, and real time form manipulation to make the recipe creation process smooth.
-Furthermore, recipes may change as time progresses. Ingredients added, measurements changed, etc. Therefore, after creating a recipe, the use will be able to change their own recipes right on the page.
+Furthermore, recipes may change as time progresses. Ingredients added, measurements changed, etc. Therefore, after creating a recipe, the user will be able to change their own recipes right on the page.
 
 ## Distinctiveness and Complexity
 
@@ -21,6 +21,7 @@ The fields are...
 - Recipe Description
 - Ingredients 
 - Directions
+
 the formData is created and validated on the fronend and is send to the backend once it's submitted. On the backend a django model is created for the recipe itself as well as each direction and recipe is may contain. 
 
 ### Recipe List
