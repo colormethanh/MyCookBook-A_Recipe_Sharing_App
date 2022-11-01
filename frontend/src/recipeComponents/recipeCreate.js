@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from "react";
 
 //Style & Components
-import { Col, FormGroup, Input, Label, Row, Button } from 'reactstrap';
+import { Col, FormGroup, Input, Label, Row, Button, FormText } from 'reactstrap';
 import NavBar from './navbar';
 import "./recipeCreate.css"
 
@@ -65,6 +65,7 @@ function ImageSection(props){
         <FormGroup>
             <ImageImage imageURL={imageURL} />
             <Input id="recipeImage" type="file" onChange={onImageChange} />
+            <FormText>Photo of your recipe here!</FormText>
         </FormGroup>
     )
 }
