@@ -1,44 +1,67 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 
-//Routing and Request
+// Routing and Request
 import axios from "axios";
 import { useLoaderData, useNavigate } from 'react-router-dom'
 
-//Styling
-import { Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap'
+// Styling
+import { Card, CardBody, CardTitle, CardText, CardSubtitle, Button, Input, Label, FormGroup } from 'reactstrap'
 import searchIcon from './images/searchIcon.png'
 import './recipeList.css'
 
-//Components
+// Components
 import NavBar from './navbar';
+
+// Auth
+import AuthContext from "../context/AuthContext";
+
 
 
 const { DateTime } = require('luxon');
 
 
 export const listLoader = async () => {
+    console.log("starting list loader");
     const results = await axios.get('/api/')
-    .catch(function (error){
+    .catch((error) =>{
         console.log('Error', error.message);
     }); 
     const recipes = results.data;
     return recipes;
-} 
+}
 
 
 function SearchBarContainer (props) {
 
     return (
+        <>
+        
         <form>
-        <div className="search-wrapper mb-3 mt-3">
-            <div className="search">
-                <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
-                <Button type="submit" className="searchButton">
-                    <img className="searchIcon" src={searchIcon}  alt="Icon"/>
-                </Button>
+            <div className="search-wrapper mb-3 mt-3">
+                <div className="search">
+                    <input className="searchTerm" placeholder="Search" type="text" onChange={(e) => props.onChange(e)}/>
+                    <Button type="submit" className="searchButton">
+                        <img className="searchIcon" src={searchIcon}  alt="Icon"/>
+                    </Button>
+                </div>
             </div>
-        </div>
         </form>
+        {
+         props.user && 
+            <div className="checkbox-wrapper d-flex justify-content-center">
+            <FormGroup switch>
+                <Input 
+                    type="switch" 
+                    role="switch"
+                    checked={props.isChecked}
+                    onChange={()=>{props.setIsChecked(!props.isChecked)}}
+                />
+                <Label check>View only My Recipes</Label>
+            </FormGroup>
+            </div>  
+        }
+        
+        </>
     )
 }
 
@@ -116,6 +139,9 @@ function CardsContainer (props){
 export default function RecipeListContainer () {
     const [searchValue, setSearchValue] = useState("")
     const [recipes, setRecipes] = useState([])
+    const [isChecked, setIsChecked] = useState(false)
+
+    const {user} = useContext(AuthContext);
 
     function handleSearchValueChange (e) {
         setSearchValue(e.target.value);
@@ -127,12 +153,27 @@ export default function RecipeListContainer () {
         setRecipes(recipeList);
     }, []);
     
+    useEffect(() => {
+        if (isChecked){
+            axios.get(`/api/userList/${user.username}`)
+            .then((results) => {
+                console.log(results.data);
+                const userList = results.data
+                setRecipes(userList)
+            })
+            .catch((error) => {
+            console.log('Error', error.message);
+            });
+        } else {
+            setRecipes(recipeList);
+        }
+    }, [isChecked])
 
     return (
         <div className="list-background">
             <NavBar />
             <div className="container">
-                <SearchBarContainer onChange={handleSearchValueChange}/>
+                <SearchBarContainer onChange={handleSearchValueChange} isChecked={isChecked} setIsChecked={setIsChecked} user={user} />
                 <CardsContainer searchValue={searchValue} recipes={recipes}/>
             </div>
         </div>

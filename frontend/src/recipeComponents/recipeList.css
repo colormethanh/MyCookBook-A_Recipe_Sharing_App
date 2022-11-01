@@ -18,6 +18,10 @@ body ::-webkit-scrollbar {
     margin-right: auto;
 }
 
+.checkbox-wrapper {
+    color: rgb(255, 103, 0);
+}  
+
 .searchIcon {
     width: 20px;
     position: relative;

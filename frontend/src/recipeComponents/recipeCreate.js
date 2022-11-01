@@ -9,7 +9,7 @@ import "./recipeCreate.css"
 
 //Routing
 import axios from "axios";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //Auth
 import AuthContext from "../context/AuthContext"

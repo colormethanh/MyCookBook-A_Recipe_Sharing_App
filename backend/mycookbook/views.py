@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 import re
 from django.shortcuts import render
 from .forms import RecipeForm
@@ -51,6 +52,19 @@ def api_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def api_user_list(request, username):
+    if request.method == "GET":
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+        
+        data = Recipe.objects.filter(owner=user)
+        serializer = RecipeSerializer(data, many=True)
+
+        return Response(serializer.data)
 
 @api_view(["GET","PUT","DELETE"])
 def api_detail(request, id):

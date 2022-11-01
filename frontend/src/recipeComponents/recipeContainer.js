@@ -517,8 +517,7 @@ function RecipeBody(props) {
                     <DirectionContainer directions={props.directions} user={props.user} owner={props.owner} recipe={props.recipe} revalidator={props.revalidator} />
                 </Col>
             </Row>
-            
-            
+
         </div>
     )
 }

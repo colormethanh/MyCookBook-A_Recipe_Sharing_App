@@ -6,6 +6,9 @@ The main feature of MyCookBook is in the ease of creation. In the case of other 
 Furthermore, recipes may change as time progresses. Ingredients added, measurements changed, etc. Therefore, after creating a recipe, the user will be able to change their own recipes right on the page.
 
 ## Distinctiveness and Complexity
+In terms of complexity, I feel my project satisfy this category because of it's utilization of all of the topics that was introduced in the class. It utilizes in a meaningful way Python, Django, Javascript, React, HTML, CSS, SQL, MODELS, Security, and more. The project also implements all the C.R.U.D operations expected from a website.
+In terms of Distinctivness, although it utilizes all the features practiced in this course, it's nature is not at all similiar to the other projects. It's goal is to create a dynamic recipe sharing/editing site to be used as either a record book, or place of inspiration, for recipes. 
+
 
 ## Description
 MyCookBook is a recipe creation site. It is built with **Django + DjangoRestFramework on the backend and React on the frontend**. The main focus of this site is for recipe creation. 
