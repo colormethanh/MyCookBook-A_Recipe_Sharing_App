@@ -61,6 +61,7 @@ contains the files for the virtual env
 ## How To Run 
 - run "myenv/scripts/activate" to start the virtual enviortment
 - cd into "backend"
+- run "pip install -r requirements.txt" to install any requirments
 - run "python manage.py runserver" to start the server
 - open a new terminal
 - cd into "frontend"
