@@ -45,7 +45,7 @@ The RecipeBody contains the recipe description, ingredients, and directions. If 
 - Views.py: Contains all the views I've created for the backend. That includes the login/token retrieval as well as any get/post/put requests. 
 - urls.py: Contains all the routes for the backend api. 
 - settings.py: Contains any settings that i've added to the project. This includes any apps, the restframework settings, and the JWT settings. 
-- Contains all the models created for this project. (ex. User, Recipe, Ingredients, Direction)
+- models.py : Contains all the models created for this project. (ex. User, Recipe, Ingredients, Direction)
 - serializer.py: Contains a help function used to strip quotes off recieved data, Registration serializers, and all models serializations. 
 
 ### frontend
