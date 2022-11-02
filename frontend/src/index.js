@@ -61,9 +61,7 @@ const JSXRouter = createBrowserRouter(
 
 root.render(
     <React.StrictMode>
-        
         <RouterProvider router={JSXRouter}/>
-            
     </React.StrictMode>
 );
 

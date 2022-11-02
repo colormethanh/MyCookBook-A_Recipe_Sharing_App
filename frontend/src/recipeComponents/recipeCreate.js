@@ -9,7 +9,7 @@ import "./recipeCreate.css"
 
 //Routing
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //Auth
 import AuthContext from "../context/AuthContext"
@@ -361,8 +361,8 @@ export default function RecipeCreateContainer(prop){
     const [image, setImage] = useState("");
     const [imageURL, setImageURL] = useState();
 
-    const initialName = sessionStorage.getItem('initialName'); //Grab the initial name of recipe from session storage
-    const name = initialName ? initialName : "" ; //if the initialName is not null then use the initialName else set ''
+    const {state} = useLocation();
+    const name = state ? state.initialName : ''
     const [recipeName, setRecipeName] = useState({
         'name': name
     })

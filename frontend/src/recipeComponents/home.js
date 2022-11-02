@@ -29,8 +29,7 @@ function SearchBarContainer() {
     function onChange(e){setInitialName(e.target.value)}
 
     function handleClick(){
-        window.sessionStorage.setItem('initialName', initialName)
-        navigate('/RecipeCreate')
+        navigate('/RecipeCreate', {state:{'initialName':initialName}})
     }
     
     return (

@@ -1,24 +1,17 @@
-from http.client import HTTPResponse
-import re
-from django.shortcuts import render
-from .forms import RecipeForm
-from django.views import generic
+
 from .models import Direction, Ingredient, Recipe
-from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
-from django.urls import reverse
+from django.http import HttpResponse
 
 from rest_framework import status, generics
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from .serializers import DirectionSerializer, IngredientSerializer, RecipeSerializer, MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 
 from .models import Recipe, User
 
-
-## API VIEWS ##
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
