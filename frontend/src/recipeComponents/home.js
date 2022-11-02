@@ -85,7 +85,7 @@ function HeaderSection(){
 
 function GalleryCard(props) {
     const navigate = useNavigate();
-    const handleOnClick = useCallback(() => navigate(`/${props.recipe.id}`, {replace:true}),[navigate]);
+    const handleOnClick = useCallback(() => navigate(`/Recipe/${props.recipe.id}`, {replace:true}),[navigate]);
     return (
         <Col className="card-column"  md="12" xl="4">
             <Card className="gallery-card" onClick={handleOnClick}>

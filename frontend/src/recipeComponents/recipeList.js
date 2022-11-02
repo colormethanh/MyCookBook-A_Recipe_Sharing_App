@@ -69,7 +69,7 @@ function RecipeCard(props){
 
     const created_at = DateTime.fromISO(props.recipe.created_at).toLocaleString(DateTime.DATETIME_MED);
     const navigate = useNavigate();
-    const handleOnClick = useCallback(() => navigate(`/${props.recipe.id}`, {replace:true}),[navigate]);
+    const handleOnClick = useCallback(() => navigate(`/Recipe/${props.recipe.id}`, {replace:true}),[navigate]);
 
     return(
         <>

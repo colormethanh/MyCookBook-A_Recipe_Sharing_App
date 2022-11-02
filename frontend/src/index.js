@@ -14,6 +14,7 @@ import {
   Route,
   createRoutesFromElements,
   Outlet,
+  Navigate
 } from "react-router-dom";
 
 
@@ -43,7 +44,7 @@ const JSXRouter = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<AuthProviderLayout />}>
             <Route path="/" element={<HomePage />} loader={homeLoader} />
-            <Route path="/:id" element={<RecipeContainer />} loader={recipeLoader} />
+            <Route path="/Recipe/:id" element={<RecipeContainer />} loader={recipeLoader} />
             <Route 
                 path="/RecipeCreate" 
                 element={
@@ -55,6 +56,7 @@ const JSXRouter = createBrowserRouter(
             <Route path="/RecipeList" element={<RecipeListContainer />} loader={listLoader} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
             
         </Route>
     ))
