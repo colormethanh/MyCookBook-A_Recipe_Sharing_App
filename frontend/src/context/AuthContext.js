@@ -67,7 +67,7 @@ export const AuthProvider = ({children}) => {
         if (response.status === 201) {
             navigate("/login");
         } else {
-            alert("Something went wrong")
+            alert("Please check that all fields are filled and passwords match!")
         }
     };
 

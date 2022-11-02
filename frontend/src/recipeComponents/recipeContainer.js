@@ -323,7 +323,7 @@ function RecipeBody(props) {
             formData.append('recipe', JSON.stringify(props.direction['recipe']))
             console.log(...formData);
             console.log("submitting form")
-            axios.put(`/api/direction/${props.direction['id']}`, formData)
+            axios.put(`/api/direction/`, formData)
             .then(
                 resp => {
                     console.log(resp);

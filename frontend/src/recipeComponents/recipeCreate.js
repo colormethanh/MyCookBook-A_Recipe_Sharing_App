@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from "react";
 
 //Style & Components
-import { Col, FormGroup, Input, Label, Row, Button, FormText } from 'reactstrap';
+import { Col, FormGroup, Input, Label, Row, Button, FormText, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import NavBar from './navbar';
 import "./recipeCreate.css"
 
@@ -356,8 +356,6 @@ function DirectionSection(props){
 
 export default function RecipeCreateContainer(prop){
 
-   
-
     const [image, setImage] = useState("");
     const [imageURL, setImageURL] = useState();
 
@@ -375,6 +373,9 @@ export default function RecipeCreateContainer(prop){
     const [directions, setDirections] = useState([]);
     const [directionsAmnt, setDirectionAmnt] = useState(3);
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const onModalDismiss = () => {setModalVisible(false)}
+
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -389,6 +390,10 @@ export default function RecipeCreateContainer(prop){
     function validateForm(){
         let is_valid = true;
 
+        if(image === ""){
+            is_valid = false
+        }
+
         if(recipeName['is_invalid']){ // Validating Name
             is_valid = false;
              
@@ -399,17 +404,17 @@ export default function RecipeCreateContainer(prop){
         }
 
         ingredients.forEach((ingredient )=> { // Validating Ingredients
-            if(!ingredient['validation']['name']){
+            if(!ingredient['validation']['name'] || ingredient['name'] === ""){
                 is_valid = false;
             } 
             
-            if(!ingredient['validation']['amount']){
+            if(!ingredient['validation']['amount'] || ingredient['amount'] === ""){
                 is_valid = false;
             }
         });
 
         directions.forEach((direction) => {
-            if(direction['is_invalid']){
+            if(direction['is_invalid'] || direction['content'] === ""){
                 is_valid = false;
              } 
         })
@@ -423,28 +428,22 @@ export default function RecipeCreateContainer(prop){
         e.preventDefault();
         const form_valid = validateForm();
 
-
-
-        let formData = new FormData();
-        formData.append('owner', JSON.stringify(user.username));
-        formData.append('image', image);
-        formData.append('description', JSON.stringify(description['description']));
-        formData.append('name', JSON.stringify(recipeName['name']));
-
-        ingredients.forEach((ingredient, index) => {
-            formData.append(`ingredients[${index}]name`, JSON.stringify(ingredient.name));
-            formData.append(`ingredients[${index}]amount`, JSON.stringify(ingredient.amount))
-        });
-        
-
-        directions.forEach((direction, index) => {
-            formData.append(`directions[${index}]content`, JSON.stringify(direction.content));
-        });
-
-        console.log(...formData);
-        console.log(form_valid);
-
         if (form_valid){
+            let formData = new FormData();
+            formData.append('owner', JSON.stringify(user.username));
+            formData.append('image', image);
+            formData.append('description', JSON.stringify(description['description']));
+            formData.append('name', JSON.stringify(recipeName['name']));
+
+            ingredients.forEach((ingredient, index) => {
+                formData.append(`ingredients[${index}]name`, JSON.stringify(ingredient.name));
+                formData.append(`ingredients[${index}]amount`, JSON.stringify(ingredient.amount))
+            });
+            
+
+            directions.forEach((direction, index) => {
+                formData.append(`directions[${index}]content`, JSON.stringify(direction.content));
+            });
             axios.post('/api/', formData,)
             .then(
                 resp =>{
@@ -453,17 +452,36 @@ export default function RecipeCreateContainer(prop){
                 } 
             )
             .catch(error => {console.log("There was an error!", error)})
+        } else {
+            setModalVisible(true);
         }
     }
 
     return (
         <div className='create-background'>
             <NavBar />
+
+            <Modal
+            isOpen={modalVisible}
+            toggle={onModalDismiss}
+            backdrop={true}
+            >
+                <ModalHeader toggle={onModalDismiss}>Check Again?</ModalHeader>
+                <ModalBody>
+                Opps, looks like something's wrong with your form. Please check that you've filled everything!
+                </ModalBody>
+                <ModalFooter>
+                <Button color="danger" onClick={onModalDismiss}>
+                    Ok
+                </Button>
+                </ModalFooter>
+            </Modal>
+
             <div className='form-wrapper border container p-5 '>
                 <h1> Recipe Form </h1>
                 <hr className='hr-contents' />
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} id="recipe-create-form">
                     <ImageSection
                         image={image}
                         setImage={setImage}

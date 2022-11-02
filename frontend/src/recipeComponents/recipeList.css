@@ -80,8 +80,14 @@ body ::-webkit-scrollbar {
 
 .recipe-card {
     color: #004e98;
-    background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103, 0,.5));
-    border-color: rgb(255, 103, 0);
+    background-image: linear-gradient(to bottom,rgb(255, 103, 0),rgb(255, 103,0));
+    border: none;
+    cursor: pointer;
+    transition: all .15s ease-in-out;
+}
+
+.recipe-card:hover {
+    transform: scale(1.05);
 }
 
 .card-tritle {
@@ -100,4 +106,6 @@ body ::-webkit-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+
 

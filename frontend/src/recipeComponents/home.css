@@ -79,6 +79,12 @@ html,body
 
 .gallery-card {
     border: none;
+    transition: all .15s ease-in-out;
+    cursor: pointer;
+}
+
+.gallery-card:hover {
+    transform: scale(1.05);
 }
 
 

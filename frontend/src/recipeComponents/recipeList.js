@@ -81,7 +81,7 @@ function RecipeCard(props){
         className='recipe-card m-3'
         color="light"
         >
-            <CardBody className="recipe-card">
+            <CardBody>
                 <CardTitle className="card-title" tag="h4">
                     {props.recipe.name}
                 </CardTitle>
@@ -92,7 +92,7 @@ function RecipeCard(props){
                 </CardSubtitle>
             </CardBody>
             <img className="card-image" alt="Card cap" src={props.recipe.image} width="100%"/>
-            <CardBody className="recipe-card">
+            <CardBody >
                 <CardText>
                     {props.recipe.description ? props.recipe.description : " A quick and simple Recipe!"}
                 </CardText>
