@@ -72,9 +72,6 @@ The RecipeBody contains the recipe description, ingredients, and directions. If 
 - src/recipeComponenets/utils: Contains a componet that checks if a user is logged in else reroute them to login page.
 - src/index: contains the root of the frontend as well as the routers.
 
-### myenv
-contains the files for the virtual env
-
 
 
 
