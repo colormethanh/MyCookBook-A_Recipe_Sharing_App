@@ -3,6 +3,7 @@
 ## Video url: https://youtu.be/s_-wS80Eh9A
 
 ## How To Run 
+- run "python -m venv venv"
 - run "venv/scripts/activate" on Windows or "source venv/bin/activate" on Mac/Linux to start the virtual environment
 - cd into "backend"
 - run "pip install -r requirements.txt" to install any requirments
