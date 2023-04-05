@@ -1,5 +1,7 @@
 # MyCookBook- A recipe creation/sharing app
 
+## Video url: https://youtu.be/s_-wS80Eh9A
+
 ## Inspiration
 I first started programming because I wanted to create something..anything that would be useful to someone. So when I was tasked with this project, I wanted to do just that, attempt to create something that would be useful to someone. To make something useful is not just creating a "feature" on a website, it's how the features is directed toward a specific goal. The goal of MyCookBook is a site where one can easily create a recipe for later use or browse through the many recipes others may upload.
 The main feature of MyCookBook is in the ease of creation. In the case of other recipe sharing site, it's very easy to view recipes, however creating one is either difficult or just impossible. MyCookBook easily allows for photo uploads, descriptions, and real time form manipulation to make the recipe creation process smooth.
