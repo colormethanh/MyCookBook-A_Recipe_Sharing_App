@@ -3,7 +3,7 @@
 ## Video url: https://youtu.be/s_-wS80Eh9A
 
 ## How To Run 
-- run "myenv/scripts/activate" to start the virtual enviortment (NOTE: you can skip this step if you are running on Codespace/Container)
+- run "venv/scripts/activate" on windows or "source venv/bin/activate" to start the virtual enviortment
 - cd into "backend"
 - run "pip install -r requirements.txt" to install any requirments
 - run "python manage.py runserver" to start the server
