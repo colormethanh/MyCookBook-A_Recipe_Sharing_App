@@ -3,7 +3,7 @@
 ## Video url: https://youtu.be/s_-wS80Eh9A
 
 ## How To Run 
-- run "myenv/scripts/activate" to start the virtual enviortment
+- run "myenv/scripts/activate" to start the virtual enviortment (NOTE: you can skip this step if you are running on Codespace/Container)
 - cd into "backend"
 - run "pip install -r requirements.txt" to install any requirments
 - run "python manage.py runserver" to start the server
@@ -13,6 +13,8 @@
 - run npm start
 
 The website should start after that, Please register for an account after the site has started.
+
+NOTE: If using codespace, the app may load with a "503: temporarily unavailable error". In that case, just refresh the page and the site should load. 
 
 ## Inspiration
 I first started programming because I wanted to create something..anything that would be useful to someone. So when I was tasked with this project, I wanted to do just that, attempt to create something that would be useful to someone. To make something useful is not just creating a "feature" on a website, it's how the features is directed toward a specific goal. The goal of MyCookBook is a site where one can easily create a recipe for later use or browse through the many recipes others may upload.
