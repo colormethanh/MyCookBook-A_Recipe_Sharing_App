@@ -444,7 +444,7 @@ export default function RecipeCreateContainer(prop){
             directions.forEach((direction, index) => {
                 formData.append(`directions[${index}]content`, JSON.stringify(direction.content));
             });
-            axios.post('/api/', formData,)
+            axios.post('http://colormethanh.pythonanywhere.com/api/', formData,)
             .then(
                 resp =>{
                     console.log(resp);
