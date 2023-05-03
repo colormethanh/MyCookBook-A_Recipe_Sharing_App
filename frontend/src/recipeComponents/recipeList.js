@@ -22,7 +22,7 @@ const { DateTime } = require('luxon');
 
 export const listLoader = async () => {
     console.log("starting list loader");
-    const results = await axios.get('/api/')
+    const results = await axios.get('http://colormethanh.pythonanywhere.com/api/')
     .catch((error) =>{
         console.log('Error', error.message);
     }); 
@@ -155,7 +155,7 @@ export default function RecipeListContainer () {
     
     useEffect(() => {
         if (isChecked){
-            axios.get(`/api/userList/${user.username}`)
+            axios.get(`http://colormethanh.pythonanywhere.com/api/userList/${user.username}`)
             .then((results) => {
                 console.log(results.data);
                 const userList = results.data

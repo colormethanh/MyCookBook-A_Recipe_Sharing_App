@@ -14,8 +14,9 @@ import axios from "axios";
 import AuthContext from "../context/AuthContext"
 
 
+
 export const recipeLoader = async( {params} ) => {
-    const results = await axios.get(`/api/${params.id}`)
+    const results = await axios.get(`http://colormethanh.pythonanywhere.com/api/${params.id}`)
     .catch(function(error){
         console.log('Error', error.message);
     });
