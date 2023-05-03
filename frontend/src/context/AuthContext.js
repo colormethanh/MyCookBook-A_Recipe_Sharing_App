@@ -53,7 +53,7 @@ export const AuthProvider = ({children}) => {
     
 
     const registerUser = async(username, password, password2) => {
-        const response = await fetch ("/api/register", {
+        const response = await fetch ("https://colormethanh.pythonanywhere.com/api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
