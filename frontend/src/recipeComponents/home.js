@@ -91,7 +91,7 @@ function GalleryCard(props) {
             <Card className="gallery-card" onClick={handleOnClick}>
                 <CardImg
                     alt="card image"
-                    src={props.recipe.image.url}
+                    src={props.recipe.image}
                     className="card-img"
                 />
                 <CardImgOverlay>
