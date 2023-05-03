@@ -30,7 +30,7 @@ export const AuthProvider = ({children}) => {
 
     const loginUser = async (username, password) => {
         
-        const response = await fetch("/api/token", {
+        const response = await fetch("https://colormethanh.pythonanywhere.com/api/token", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -22,7 +22,7 @@ const { DateTime } = require('luxon');
 
 export const listLoader = async () => {
     console.log("starting list loader");
-    const results = await axios.get('http://colormethanh.pythonanywhere.com/api/')
+    const results = await axios.get('https://colormethanh.pythonanywhere.com/api/')
     .catch((error) =>{
         console.log('Error', error.message);
     }); 
