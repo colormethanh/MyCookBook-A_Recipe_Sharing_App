@@ -16,7 +16,7 @@ import AuthContext from "../context/AuthContext"
 
 
 export const recipeLoader = async( {params} ) => {
-    const results = await axios.get(`http://colormethanh.pythonanywhere.com/api/${params.id}`)
+    const results = await axios.get(`https://colormethanh.pythonanywhere.com/api/${params.id}`)
     .catch(function(error){
         console.log('Error', error.message);
     });
@@ -79,7 +79,7 @@ function RecipeBody(props) {
             if (nameIsValid && amountIsValid){
                 console.log("Form validated")
                 console.log("submitting form");
-                axios.put(`/api/ingredient/`, formData)
+                axios.put(`https://colormethanh.pythonanywhere.com/api/ingredient/`, formData)
                 .then(
                     resp => {
                         console.log(resp);
@@ -101,7 +101,7 @@ function RecipeBody(props) {
             // If confirmed sends a delete request using axios.
             ////
 
-            axios.delete(`/api/ingredient/${props.ingredient['id']}`)
+            axios.delete(`https://colormethanh.pythonanywhere.com/api/ingredient/${props.ingredient['id']}`)
             .then(
                 resp => {
                     console.log(resp);
@@ -226,7 +226,7 @@ function RecipeBody(props) {
 
             if (formIsValid){
                 console.log("New form validated!");
-                axios.post('/api/ingredient/', formData)
+                axios.post('https://colormethanh.pythonanywhere.com/api/ingredient/', formData)
                 .then(
                     resp => {
                         console.log(resp);
@@ -324,7 +324,7 @@ function RecipeBody(props) {
             formData.append('recipe', JSON.stringify(props.direction['recipe']))
             console.log(...formData);
             console.log("submitting form")
-            axios.put(`/api/direction/`, formData)
+            axios.put(`https://colormethanh.pythonanywhere.com/api/direction/`, formData)
             .then(
                 resp => {
                     console.log(resp);
@@ -341,7 +341,7 @@ function RecipeBody(props) {
             // If confirmed sends a delete request using axios.
             ////
 
-            axios.delete(`/api/direction/${props.direction['id']}`)
+            axios.delete(`https://colormethanh.pythonanywhere.com/api/direction/${props.direction['id']}`)
             .then(
                 resp => {
                     console.log(resp);
@@ -444,7 +444,7 @@ function RecipeBody(props) {
 
             if (formIsValid){
                 console.log("New form validated!");
-                axios.post('/api/direction/', formData)
+                axios.post('https://colormethanh.pythonanywhere.com/api/direction/', formData)
                 .then(
                     resp => {
                         console.log(resp);

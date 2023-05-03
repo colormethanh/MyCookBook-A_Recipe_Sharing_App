@@ -13,7 +13,7 @@ import axios from "axios";
 
 
 export const homeLoader = async () => {
-    const results = await axios.get('http://colormethanh.pythonanywhere.com/api/recents')
+    const results = await axios.get('https://colormethanh.pythonanywhere.com/api/recents')
     .catch(function (error){
         console.log('Error', error.message);
     }); 

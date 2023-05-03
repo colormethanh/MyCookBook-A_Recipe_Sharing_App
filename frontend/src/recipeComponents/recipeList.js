@@ -155,7 +155,7 @@ export default function RecipeListContainer () {
     
     useEffect(() => {
         if (isChecked){
-            axios.get(`http://colormethanh.pythonanywhere.com/api/userList/${user.username}`)
+            axios.get(`https://colormethanh.pythonanywhere.com/api/userList/${user.username}`)
             .then((results) => {
                 console.log(results.data);
                 const userList = results.data
